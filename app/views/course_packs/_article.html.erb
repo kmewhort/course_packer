@@ -1,0 +1,33 @@
+<tr class="article" data-article-id="<%= f.object.id %>">
+  <td>
+    <div class="title"><%= f.input :title %></div>
+    <div class="author"><%= f.input :author %></div>
+    <div class="reference"><%= f.input :reference, as: :text, input_html: { rows: 1 } %></div>
+    <div class="page-range<%= f.object.file.path.nil? ? ' hidden' : '' %>" data-num-pages="<%= f.object.num_pages %>">
+      <div class="page-range-inputs">
+        <%= f.input :page_start, label: 'Start page', input_html: { class: 'page_start', autocomplete: 'off' } %>
+        <%= f.input :page_end, label: 'End page', input_html: { class: 'page_end', autocomplete: 'off' } %>
+      </div>
+      <div class="page-slider-container">
+        <label>Page trim:</label>
+        <div class="page-range-slider-wrapper">
+          <div class="page-range-slider"></div>
+        </div>
+      </div>
+    </div>
+    <div class="file-upload" data-article-id="<%= f.object.id %>" data-coursepack-id="<%= @course_pack.id %>">
+      <div class="btn btn-success btn-xs fileinput-button">
+        <span class="glyphicon glyphicon-circle-arrow-up"></span> Upload file
+        <%= f.input :file, label: false %>
+      </div>
+      <div class="progress progress-striped active hidden">
+        <div class="progress-bar" role="progressbar"></div>
+      </div>
+    </div>
+    <div class="file-thumb">
+      <% unless f.object.file.thumbnail.url.nil? %>
+        <img src="<%= f.object.file.thumbnail.url %>"></img>
+      <% end %>
+    </div>
+  </td>
+</tr>

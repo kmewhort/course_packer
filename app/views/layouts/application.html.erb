@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CoursePacker</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag "favicon.ico" %>
+</head>
+<body class='<%= controller.controller_name %>'>
+    <div id="main">
+      <div class="container">
+        <div class="content">
+          <div class="row">
+            <div class="span12">
+              <%= render 'layouts/flash', flash: flash %>
+              <%= yield %>
+            </div>
+          </div>
+          <footer>
+            <%= render 'layouts/footer' %>
+          </footer>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
