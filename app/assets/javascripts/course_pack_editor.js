@@ -34,7 +34,13 @@ CoursePackEditor.prototype.newArticle = function(){
     // reset the inputs and increment the indexes in the name attributes
     var index = null;
     newArticle.find('input').each(function(){
-        $(this).val('');
+        // increment the weight, clear all other values
+        if($(this).hasClass('weight')){
+            $(this).val(parseInt($(this).val()) + 1);
+        }
+        else{
+            $(this).val('');
+        }
 
         var name = $(this).attr('name');
         if(name){

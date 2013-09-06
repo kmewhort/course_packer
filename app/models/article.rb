@@ -14,7 +14,7 @@ class Article
   field :page_end, type: Integer
   field :weight, type: Integer, default: 0 #controls order of appearance in the CoursePack
   mount_uploader :file, DocUploader
-  attr_accessible :title, :author, :reference, :num_pages, :page_start, :page_end, :file
+  attr_accessible :title, :author, :reference, :num_pages, :page_start, :page_end, :file, :weight
   attr_accessor :temp_id
 
   after_save :count_pages
@@ -57,8 +57,10 @@ class Article
   private
   # count the number of pages in the document
   def count_pages
-    pages = file.path.nil? ? nil : PdfUtils::count_pages(file.pdf.path)
-    set(:num_pages, pages)
+    unless @destroyed
+      pages = file.path.nil? ? nil : PdfUtils::count_pages(file.pdf.path)
+      set(:num_pages, pages)
+    end
   end
 
   def trimmed_page_range

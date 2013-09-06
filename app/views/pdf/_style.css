@@ -1,0 +1,48 @@
+h1 {
+    text-align: center;
+}
+
+ol li {
+    margin-top: 6px;
+}
+
+/* Title page */
+
+#title-page h1,
+#title-page h2,
+#title-page h3 {
+    text-align: center;
+}
+#title-page h1 {
+    font-size: 30pt;
+    font-weight: bold;
+    margin-top: 50%;
+}
+#title-page h2 {
+    font-size: 28pt;
+}
+#title-page h3 {
+    font-size: 24pt;
+}
+#title-page .author {
+    margin-top: 35%;
+}
+
+
+/* TOC */
+.article .title, .article ol,
+.article .page-number {
+    font-size: 18pt;
+}
+
+.article .details {
+    padding-left: 10px;
+    font-size: 15pt;
+}
+.article .author {
+    font-style: italic;
+}
+
+.page-number {
+    float: right;
+}

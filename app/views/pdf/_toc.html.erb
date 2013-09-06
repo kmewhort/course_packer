@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type='text/css'>
+    <%= render partial: 'pdf/style' %>
+  </style>
+</head>
+<body>
+<h1>Table of Contents</h1>
+<ol>
+  <% course_pack.articles.sort_by(&:weight).each do |article| %>
+    <li class="article">
+      <span class="title"><%= article.title %></span>
+      <span class="page-number"><%= course_pack.page_number_of(article) %></span>
+      <div class="details">
+        <% unless article.author.nil? || article.author.empty? %>
+          <div class="author">By <%= article.author %></div>
+        <% end %>
+        <% unless article.reference.nil? || article.reference.empty? %>
+          <div class="reference"><%= article.reference %></div>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ol>
+</body>
+</html>

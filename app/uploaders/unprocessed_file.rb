@@ -1,4 +1,4 @@
-class UnprocessedFileUploader < CarrierWave::Uploader::Base
+class UnprocessedFile < CarrierWave::Uploader::Base
   storage :file
 
   # include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:

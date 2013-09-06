@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type='text/css'>
+      <%= render partial: 'pdf/style' %>
+  </style>
+</head>
+<body>
+<div id="title-page">
+  <h1><%= course_pack.title.nil? ? 'Untitled' : course_pack.title %></h1>
+  <h2 class="author"><%= course_pack.author %></h2>
+  <h3 class="date"><%= course_pack.date %></h2>
+</div>
+</body>
+</html>

@@ -2,7 +2,13 @@
   <div class="row">
     <div class="col-lg-12">
       <h2><%= best_in_place @course_pack, :title, type: :input, activator: "#title-bip-activator", :nil => 'Untitled' %></h2>
-      <span id="title-bip-activator" class="glyphicon glyphicon-pencil"></span>
+      <span id="title-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
+      <span class="authorship-details">
+         <p>Course Pack Author: <%= best_in_place @course_pack, :author, type: :input, activator: "#author-bip-activator", :nil => ' ' %></h2>
+         <span id="author-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
+         <p>Date: <%= best_in_place @course_pack, :date, type: :input, activator: "#date-bip-activator", :nil => ' ' %></h2>
+         <span id="date-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
+      </span>
     </div>
   </div>
   <div class="row">
@@ -20,6 +26,7 @@
     <% end %>
     </div>
     <div id="preview" class="col-lg-7">
+      <p>Please add one or more documents to the course pack.</p>
     </div>
   </div>
   </div>

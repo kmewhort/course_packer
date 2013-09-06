@@ -24,7 +24,9 @@ gem 'carrierwave-mongoid'
 gem 'jquery-ui-rails' # needed for JQuery UI Upload
 
 # doc conversion
-gem 'libreconv'
+gem 'libreconv', github: 'kmewhort/libreconv'
+gem 'pdfkit' # NOTE: need wkhtml, apt-get install wkhtmltopdf
+
 
 # forms & styling
 gem 'simple_form'

@@ -24,7 +24,7 @@ class DocUploader < CarrierWave::Uploader::Base
 
   # white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(doc docx odt rdf txt pdf)
+    %w(doc docx odt rdf txt pdf html htm)
   end
 
   version :pdf do

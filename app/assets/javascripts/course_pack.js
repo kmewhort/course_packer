@@ -22,8 +22,12 @@ $(document).ready(function(){
 
     // ajaxify form submit (updating the preview after the submit completes)
     $('#course-pack_editor input[type=submit]').click(function(e){
-        var form = $(this).closest('form');
+        var btn = $(this);
+        var form = btn.closest('form');
         e.preventDefault();
+
+        // disable the button to prevent repeat clicks
+        btn.attr('disabled', 'disabled');
 
         // submit the form manually;
         $.ajax({
@@ -40,8 +44,14 @@ $(document).ready(function(){
                 url: '/course_packs/' + course_pack_id + '/preview',
                 success: function(data){
                   preview.load(data.preview_file);
+                },
+                complete: function(){
+                    btn.removeAttr('disabled');
                 }
               });
+            },
+            error: function(){
+                btn.removeAttr('disabled');
             }
         });
         return false;

@@ -3,14 +3,33 @@
 
 .course_packs{
   .course-pack-editor {
-    h2, #title-bip-activator {
+    h2 {
       display: inline-block;
     }
-    #title-bip-activator {
+    .activator {
+      display: inline-block;
       vertical-align: top;
-      padding-top: 18px;
       color: #e67800;
       pointer: cursor;
+    }
+    #title-bip-activator {
+      padding-top: 18px;
+    }
+    .authorship-details {
+      p, span {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 2px;
+      }
+      p {
+        margin-top: 34px;
+        margin-left: 28px;
+      }
+      input[type=text] {
+        margin-top: -4px;
+        min-height: 28px;
+        padding: 0 2px;
+      }
     }
 
     .file-upload {
@@ -111,5 +130,11 @@
 
   #preview {
     height: 550px;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    p {
+      margin-top: 8px;
+    }
   }
 }
