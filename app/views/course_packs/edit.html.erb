@@ -18,10 +18,10 @@
           <%= f.fields_for :articles do |f| %>
                 <%= render partial: 'article', locals: {f: f} %>
           <% end %>
-          <tr>
-            <td><a href="#" id="add-article" class="btn btn-default btn-sm">Add item</a></td>
-          </tr>
         </table>
+        <div class="add-buttons">
+          <a href="#" id="add-article" class="btn btn-default btn-sm">Add item</a>
+        </div>
         <%= f.submit 'Save & Update Preview', class: 'btn btn-primary save' %>
     <% end %>
     </div>

@@ -12,6 +12,9 @@
       color: #e67800;
       pointer: cursor;
     }
+    .activator:before {
+      cursor: pointer;
+    }
     #title-bip-activator {
       padding-top: 18px;
     }
@@ -30,6 +33,12 @@
         min-height: 28px;
         padding: 0 2px;
       }
+    }
+
+    table {
+      margin-bottom: 0;
+      border-bottom: medium none;
+      border-radius: 4px 4px 0 0;
     }
 
     .file-upload {
@@ -120,6 +129,24 @@
 
     .hidden {
       display: none;
+    }
+
+    .add-buttons {
+      width: 100%;
+      border: 1px solid #DDD;
+      border-radius: 0 0 4px 4px;
+      margin-bottom: 8px;
+      padding: 6px 8px;
+    }
+
+    .sort-handle {
+      float: right;
+      padding-bottom: 0;
+      padding-right: 4px;
+      padding-top: 16px;
+    }
+    .sort-handle, .sort-handle:before {
+      cursor: move;
     }
 
   }

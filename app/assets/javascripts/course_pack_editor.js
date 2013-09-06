@@ -4,6 +4,7 @@
  *= require jquery.fileupload
  *= require jquery.autosize
  *= require jquery.ui.slider
+ *= require jquery.ui.sortable
  */
 
 function CoursePackEditor(container){
@@ -22,6 +23,13 @@ function CoursePackEditor(container){
     // page range sliders
     $( ".page-range").each(function(){
         editor.addPageRangeSlider(this);
+    });
+
+    // sortability
+    this.container.find('tbody').sortable({
+        axis: 'y',
+        tolerance: 'pointer',
+        update: function(){ editor.reassignWeights(); }
     });
 }
 
@@ -144,6 +152,14 @@ CoursePackEditor.prototype.addPageRangeSlider = function(element){
             }
         });
     }
+}
+
+// reassign weight values based on the current order of the articles in the dom
+CoursePackEditor.prototype.reassignWeights = function(){
+    var weight = 0;
+    this.container.find('input.weight').each(function(){
+      $(this).val(weight++);
+    });
 }
 
 // replace temporary IDs assigned to articles with any permanent IDs returned back by the server;
