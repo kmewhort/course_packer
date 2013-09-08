@@ -59,7 +59,7 @@ class CoursePack
 
   # number of pages overall (all articles, plus toc, but not the title page)
   def number_of_pages                                            s
-    pages = articles.map{|a| a.num_pages}.reduce(0,:+)
+    pages = articles.map{|a| a.num_pages_after_trimming}.reduce(0,:+)
     unless toc.path.nil?
       pages += PdfUtils::count_pages(toc.path)
     end
@@ -70,11 +70,7 @@ class CoursePack
   def page_number_of(article)
     articles.sort_by(&:weight).reduce(1) do |sum,a|
       break(sum) if a == article
-      if a.num_pages.nil?
-        sum
-      else
-        sum + a.num_pages
-      end
+      sum + a.num_pages_after_trimming
     end
   end
 

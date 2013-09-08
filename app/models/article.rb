@@ -26,8 +26,18 @@ class Article
     @temp_id = attributes[:temp_id]
   end
 
+  def has_file?
+    !file.path.nil?
+  end
+
   def trimmed?
     (!page_start.nil? && page_start > 1) || (!page_end.nil? && page_end < num_pages)
+  end
+
+  def num_pages_after_trimming
+    return 0 unless has_file?
+    range = trimmed_page_range
+    range[1] - range[0] + 1
   end
 
   def trimmed_swf(outfile = nil)

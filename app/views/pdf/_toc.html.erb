@@ -10,7 +10,7 @@
 <ol>
   <% course_pack.articles.sort_by(&:weight).each do |article| %>
     <li class="article">
-      <span class="title"><%= article.title %></span>
+      <span class="title"><%= article.title %>&nbsp;</span>
       <span class="page-number"><%= course_pack.page_number_of(article) %></span>
       <div class="details">
         <% unless article.author.nil? || article.author.empty? %>
