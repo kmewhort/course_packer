@@ -8,6 +8,7 @@
  */
 
 function CoursePackEditor(container){
+    var widget = this;
     this.container = $(container);
 
     // add new article action
@@ -15,15 +16,18 @@ function CoursePackEditor(container){
     this.container.find('#add-article').click(function(){ editor.newArticle(); });
 
     // file upload widgets
-    $('.file-upload').each(function(){ editor.ajaxifyFileUpload(this); });
+    this.container.find('.file-upload').each(function(){ editor.ajaxifyFileUpload(this); });
 
     // autosize text areas
-    $('textarea').autosize();
+    this.container.find('textarea').autosize();
 
     // page range sliders
-    $( ".page-range").each(function(){
+    this.container.find( ".page-range").each(function(){
         editor.addPageRangeSlider(this, null);
     });
+
+    // delete buttons
+    this.container.find('.delete-article').click( function(){ widget.deleteArticle(this); } );
 
     // sortability
     this.container.find('tbody').sortable({
@@ -35,6 +39,8 @@ function CoursePackEditor(container){
 
 // add a row for a new empty article
 CoursePackEditor.prototype.newArticle = function(){
+    var widget = this;
+
     // copy the last article
     var lastArticle = this.container.find('tr.article:last');
     var newArticle = lastArticle.clone().insertAfter(lastArticle);
@@ -76,6 +82,7 @@ CoursePackEditor.prototype.newArticle = function(){
 
     this.ajaxifyFileUpload(newArticle.find('.file-upload'));
     newArticle.find('textarea').autosize();
+    newArticle.find('.delete-article').click( function(){ widget.deleteArticle(this); } );
 }
 
 CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
@@ -173,6 +180,16 @@ CoursePackEditor.prototype.reassignWeights = function(){
     this.container.find('input.weight').each(function(){
       $(this).val(weight++);
     });
+}
+
+CoursePackEditor.prototype.deleteArticle = function(delete_button){
+    var article = $(delete_button).closest('.article');
+
+    // if there is only one article left, leave one empty article container before deleting it
+    if(this.container.find('.article').length == 1){
+        this.newArticle();
+    }
+    article.remove();
 }
 
 // replace temporary IDs assigned to articles with any permanent IDs returned back by the server;

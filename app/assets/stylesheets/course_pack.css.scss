@@ -135,6 +135,13 @@
         .ui-slider-handle:hover, .ui-slider-handle:focus {
           text-decoration: none;
         }
+        .page-start-display {
+          margin-left: -0.2em;
+
+        }
+        .page-end-display {
+          margin-left: -1.4em;
+        }
       }
     }
 
@@ -150,16 +157,26 @@
       padding: 6px 8px;
     }
 
-    .sort-handle {
+    .article-actions {
       float: right;
       padding-bottom: 0;
       padding-right: 4px;
       padding-top: 16px;
-    }
-    .sort-handle, .sort-handle:before {
-      cursor: move;
-    }
 
+      .delete-article {
+        margin-left: 6px;
+      }
+      .delete-article, .delete-article:before {
+        cursor: pointer;
+        color: #de324c;
+      }
+
+      .sort-handle, .sort-handle:before {
+        cursor: move;
+        color: #446bc7;
+      }
+
+    }
   }
 
   .btn.save {
