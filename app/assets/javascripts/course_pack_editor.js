@@ -125,7 +125,7 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
                 if((this._id == articleId) || (this.temp_id == articleId)){
                     // show a thumbnail of the first page
                     $(element).parent().find('.file-thumb').empty()
-                        .append($('<img>').attr('src',this.file.thumbnail.url));
+                        .append($('<img>').attr('src',this.file.first_page.url));
 
                     // enable page slider
                     widget.addPageRangeSlider($(element).parent().find('.page-range'), this.num_pages);

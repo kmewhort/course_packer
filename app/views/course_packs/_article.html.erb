@@ -27,8 +27,8 @@
       </div>
     </div>
     <div class="file-thumb">
-      <% unless f.object.file.thumbnail.url.nil? %>
-        <img src="<%= f.object.file.thumbnail.url %>"></img>
+      <% unless f.object.file.first_page.url.nil? %>
+        <img src="<%= f.object.file.first_page.url %>"></img>
       <% end %>
     </div>
     <span class="article-actions">

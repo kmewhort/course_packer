@@ -36,10 +36,6 @@ class DocUploader < CarrierWave::Uploader::Base
   end
 
   version :first_page, :from_version => :pdf do
-    process :convert_to_png => [{ pages: '1' }]
-  end
-
-  version :thumbnail, :from_version => :first_page do
-    process :resize_to_fit => [150,150]
+    process :convert_to_png => [{ pages: '1', resize: [150,150] }]
   end
 end
