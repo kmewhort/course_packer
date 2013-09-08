@@ -74,6 +74,14 @@
       display: inline-block;
       margin: 0 0 1px;
       vertical-align: bottom;
+      background-color:#CCC;
+
+      .progress-stage{
+        color: #F2F2F2;
+        font-size: 95%;
+        padding: 0 8px;
+        position: absolute;
+      }
     }
     .progress.hidden {
       display: none;

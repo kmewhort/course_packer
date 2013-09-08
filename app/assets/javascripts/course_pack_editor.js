@@ -88,7 +88,8 @@ CoursePackEditor.prototype.newArticle = function(){
 CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
     var widget = this;
     var progressBar = $(element).find('.progress');
-    var progressStatus = $(element).find('progress-bar');
+    var progressStatus = $(element).find('.progress-bar');
+    var progressStage = $(element).find('.progress-stage');
 
     var coursePackId = $(element).data('coursepack-id');
     var uploadUrl = "/course_packs/" + coursePackId;
@@ -98,16 +99,25 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
         url: uploadUrl,
         type: uploadType,
         dataType: 'json',
+        progressTimeEvents: 25,
         send: function(e, data){
             $(element).find('.alert').remove();
+            progressStatus.css('width', '0');
+            progressStage.text('Uploading...');
             progressBar.removeClass('hidden');
         },
         progress: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            progressStatus.css('width', progress + '%');
+            var progress = data.loaded / data.total;
+            progressStatus.css('width', parseInt(progress*60) + '%'); // leave ~40% of the bar for processing
+
+            // we won't get the final chunk until after processing, so switch status message after 90% complete
+            if(progress > 0.90){
+                progressStage.text('Processing...');
+            }
         },
         done: function (e, data) {
             // replace any temporary IDs with the permanent ones
+            progressStatus.css('width', '100%');
             widget.substituteTemporaryIds(data.result);
 
             var articleId = $(element).closest('.article').data('article-id');
