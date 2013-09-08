@@ -22,7 +22,7 @@ function CoursePackEditor(container){
 
     // page range sliders
     $( ".page-range").each(function(){
-        editor.addPageRangeSlider(this);
+        editor.addPageRangeSlider(this, null);
     });
 
     // sortability
@@ -111,7 +111,7 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
                         .append($('<img>').attr('src',this.file.thumbnail.url));
 
                     // enable page slider
-                    widget.addPageRangeSlider($(element).parent().find('.page-range'));
+                    widget.addPageRangeSlider($(element).parent().find('.page-range'), this.num_pages);
                 }
             });
         },
@@ -130,13 +130,16 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
     });
 }
 
-CoursePackEditor.prototype.addPageRangeSlider = function(element){
+CoursePackEditor.prototype.addPageRangeSlider = function(element, num_pages){
     var container = $(element);
-    var numPages = container.data('num-pages');
+    if(!num_pages)
+      numPages = container.data('num-pages');
 
     if(numPages){
         var pageStartInput = container.find('input.page_start');
         var pageEndInput = container.find('input.page_end');
+        var startValues = [ (pageStartInput.val() != "" ? pageStartInput.val() : 1),
+            (pageEndInput.val() != "" ? pageEndInput.val() : numPages)];
 
         container.removeClass('hidden');
 
@@ -144,11 +147,21 @@ CoursePackEditor.prototype.addPageRangeSlider = function(element){
             range: true,
             min: 1,
             max: numPages,
-            values: [ (pageStartInput.val() != "" ? pageStartInput.val() : 1),
-                      (pageEndInput.val() != "" ? pageEndInput.val() : numPages)],
-            slide: function( event, ui ) {
+            values: startValues,
+            slide: function(event, ui) {
+                var sliderHandles = container.find('.ui-slider-handle');
+                sliderHandles.eq(0).text(ui.values[0]);
+                sliderHandles.eq(1).text(ui.values[1]);
+            },
+            change: function(event, ui){
                 pageStartInput.val(ui.values[0]);
                 pageEndInput.val(ui.values[1]);
+            },
+            create: function(obj){
+                // show values right on the slider handles
+                var sliderHandles = $(obj.target).find('.ui-slider-handle');
+                sliderHandles.eq(0).addClass('page-start-display').text(startValues[0]);
+                sliderHandles.eq(1).addClass('page-end-display').text(startValues[1]);
             }
         });
     }
