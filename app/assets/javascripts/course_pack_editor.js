@@ -311,6 +311,20 @@ CoursePackEditor.prototype.deleteContent = function(delete_button){
     var content = $(delete_button).closest('.content');
     var is_article = content.hasClass('article');
 
+    // confirm deletion
+    var title = content.find('.title input').val();
+    var confirm_text = null;
+    if(title)
+      confirm_text = 'Delete "' + title + '"?';
+    else{
+      if(is_article)
+        confirm_text = 'Delete article?';
+      else
+        confirm_text = 'Delete chapter heading?';
+    }
+    if(!confirm(confirm_text))
+      return;
+
     // hide the article
     content.attr('class', 'content deleted').css('display', 'none');
 
