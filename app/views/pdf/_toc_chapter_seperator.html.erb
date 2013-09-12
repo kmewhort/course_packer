@@ -1,0 +1,7 @@
+<% chapter_depth = chapter.nil? ? 0 : chapter.depth %>
+<% while cur_depth > chapter_depth %>
+  </ol>
+<% cur_depth = cur_depth-1; end %>
+<% while cur_depth < chapter_depth %>
+  <ol>
+<% cur_depth = cur_depth + 1; end %><%= chapter.nil? ? '' : chapter.title %>

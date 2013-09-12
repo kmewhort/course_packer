@@ -39,6 +39,13 @@
       margin-bottom: 0;
       border-bottom: medium none;
       border-radius: 4px 4px 0 0;
+
+      tr.chapter_seperator {
+        background-color: #EEEEEE;
+      }
+      tr.content td:hover {
+        background-color: #fffad7;
+      }
     }
 
     .file-upload {
@@ -184,6 +191,18 @@
         color: #446bc7;
       }
 
+    }
+    .chapter_seperator {
+      .article-actions, .depth-change {
+        padding-top: 6px;
+      }
+      .depth-change {
+        display: inline-block;
+        margin-left: 23px;
+        .glyphicon {
+          cursor: pointer;
+        }
+      }
     }
   }
 

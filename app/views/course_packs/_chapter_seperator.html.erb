@@ -1,0 +1,16 @@
+<tr class="content chapter_seperator" data-content-id="<%= f.object.id %>">
+  <td class="data">
+    <div class="title"><%= f.input :title, label: 'Chapter title' %></div>
+    <%= f.hidden_field :weight, class: 'weight' %>
+    <%= f.hidden_field :depth, class: 'depth' %>
+    <%= f.hidden_field :_type, class: 'type' %>
+    <span class="depth-change">
+      <span class="depth-left glyphicon glyphicon-chevron-left"></span>
+      <span class="depth-right glyphicon glyphicon-chevron-right"></span>
+    </span>
+    <span class="article-actions">
+      <span class="sort-handle glyphicon glyphicon-sort" title="Drag to move"></span>
+      <span class="delete-article glyphicon glyphicon-remove" title="Delete chapter seperator"></span>
+    </span>
+  </td>
+</tr>

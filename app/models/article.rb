@@ -1,30 +1,17 @@
 require 'pdf_utils'
 require 'swf_utils'
 
-class Article
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Article < Content
 
-  belongs_to :course_pack
-  field :title, type: String, default: ""
   field :author, type: String
   field :reference, type: String
   field :num_pages, type: Integer
   field :page_start, type: Integer
   field :page_end, type: Integer
-  field :weight, type: Integer, default: 0 #controls order of appearance in the CoursePack
   mount_uploader :file, DocUploader
-  attr_accessible :title, :author, :reference, :num_pages, :page_start, :page_end, :file, :weight
-  attr_accessor :temp_id
+  attr_accessible :author, :reference, :page_start, :page_end, :file, :weight
 
   after_save :count_pages
-
-  def initialize(attributes, options)
-    super(attributes, options)
-
-    # also initialize the non-persistent temp_id
-    @temp_id = attributes[:temp_id]
-  end
 
   def has_file?
     !file.path.nil?
@@ -56,12 +43,6 @@ class Article
     end
 
     outfile
-  end
-
-  def as_json(options={})
-    result = super(options)
-    result[:temp_id] = temp_id
-    result
   end
 
   private

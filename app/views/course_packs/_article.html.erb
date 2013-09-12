@@ -1,5 +1,5 @@
-<tr class="article" data-article-id="<%= f.object.id %>">
-  <td>
+<tr class="content article" data-content-id="<%= f.object.id %>">
+  <td class="data">
     <div class="title"><%= f.input :title %></div>
     <div class="author"><%= f.input :author %></div>
     <div class="reference"><%= f.input :reference, as: :text, input_html: { rows: 1 } %></div>
@@ -16,7 +16,8 @@
       </div>
     </div>
     <%= f.hidden_field :weight, class: 'weight' %>
-    <div class="file-upload" data-article-id="<%= f.object.id %>" data-coursepack-id="<%= @course_pack.id %>">
+    <%= f.hidden_field :_type, class: 'type' %>
+    <div class="file-upload" data-coursepack-id="<%= @course_pack.id %>">
       <div class="btn btn-success btn-xs fileinput-button">
         <span class="glyphicon glyphicon-circle-arrow-up"></span> Upload file
         <%= f.input :file, label: false %>

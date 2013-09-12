@@ -15,6 +15,9 @@ function CoursePackEditor(container){
     var editor = this;
     this.container.find('#add-article').click(function(){ editor.newArticle(); });
 
+    // add new chapter action
+    this.container.find('#add-chapter').click(function(){ editor.newChapter(); });
+
     // file upload widgets
     this.container.find('.file-upload').each(function(){ editor.ajaxifyFileUpload(this); });
 
@@ -27,7 +30,15 @@ function CoursePackEditor(container){
     });
 
     // delete buttons
-    this.container.find('.delete-article').click( function(){ widget.deleteArticle(this); } );
+    this.container.find('.delete-article').click( function(){ widget.deleteContent(this); } );
+
+    // depth buttons
+    this.container.find('.depth-change').each(function(){
+        editor.addDepthAdjustors(this);
+    });
+
+    // initial depth padding
+    this.addDepthPadding();
 
     // sortability
     this.container.find('tbody').sortable({
@@ -40,49 +51,91 @@ function CoursePackEditor(container){
 // add a row for a new empty article
 CoursePackEditor.prototype.newArticle = function(){
     var widget = this;
+    var lastTableRow = this.container.find('tr:last');
 
-    // copy the last article
-    var lastArticle = this.container.find('tr.article:last');
-    var newArticle = lastArticle.clone().insertAfter(lastArticle);
+    // build the html from the micro-template
+    var html = document.getElementById('article-template').innerHTML;
+    var newArticle = $(html).find('tr').insertAfter(lastTableRow);
 
-    // reset the inputs and increment the indexes in the name attributes
-    var index = null;
+    // increment the weight input
+    var lastWeight = parseInt(lastTableRow.find('input.weight').val());
+    newArticle.find('input.weight').val(lastWeight+1);
+
+    // assign an index (in the name attributes)
+    var max_index = 0;
+    this.container.find('tr').each(function(){
+      var name = $(this).find('.title input').attr('name');
+      var index = parseInt(/(\d+)/.exec(name)[1]);
+      if(index > max_index)
+        max_index = index;
+    });
     newArticle.find('input').each(function(){
-        // increment the weight, clear all other values
-        if($(this).hasClass('weight')){
-            $(this).val(parseInt($(this).val()) + 1);
-        }
-        else{
-            $(this).val('');
-        }
-
         var name = $(this).attr('name');
         if(name){
-            if(index == null)
-              index = parseInt(/(\d+)/.exec(name)[1]) + 1;
-            $(this).attr('name', name.replace(/\d+/, index));
+          $(this).attr('name', name.replace(/\d+/, max_index+1));
         }
     });
-
-    // remove the file thumbnail
-    newArticle.find('.file-thumb').empty();
-
-    // remove the page slider
-    newArticle.find('.page-range-slider').empty().attr('class', 'page-range-slider');
-    newArticle.find('.page-range').addClass('hidden');
 
     // assign a temporary id
     var temp_id = this.uniqueTemporaryId();
     $('<input>').attr('id',temp_id)
-        .attr('name', 'course_pack[articles_attributes][' + index + '][temp_id]')
+        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][temp_id]')
         .attr('type', 'hidden')
         .val(temp_id)
         .insertAfter(newArticle);
-    newArticle.data('article-id',temp_id);
+    newArticle.data('content-id',temp_id);
 
     this.ajaxifyFileUpload(newArticle.find('.file-upload'));
     newArticle.find('textarea').autosize();
-    newArticle.find('.delete-article').click( function(){ widget.deleteArticle(this); } );
+    newArticle.find('.delete-article').click( function(){ widget.deleteContent(this); } );
+
+    this.addDepthPadding();
+}
+
+// add a row for a new chapter
+CoursePackEditor.prototype.newChapter = function(){
+    var widget = this;
+    var lastTableRow = this.container.find('tr:last');
+
+    // build the html from the micro-template
+    var html = document.getElementById('chapter-seperator-template').innerHTML;
+    var newChapter = $(html).find('tr').insertAfter(lastTableRow);
+
+    // increment the weight input
+    var lastWeight = parseInt(lastTableRow.find('input.weight').val());
+    newChapter.find('input.weight').val(lastWeight+1);
+
+    // assign an index (in the name attributes)
+    var max_index = 0;
+    this.container.find('tr').each(function(){
+        var name = $(this).find('.title input').attr('name');
+        var index = parseInt(/(\d+)/.exec(name)[1]);
+        if(index > max_index)
+            max_index = index;
+    });
+    newChapter.find('input').each(function(){
+        var name = $(this).attr('name');
+        if(name){
+            $(this).attr('name', name.replace(/\d+/, max_index+1));
+        }
+    });
+
+    // assign a temporary id
+    var temp_id = this.uniqueTemporaryId();
+    $('<input>').attr('id',temp_id)
+        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][temp_id]')
+        .attr('type', 'hidden')
+        .val(temp_id)
+        .insertAfter(newChapter);
+    newChapter.data('content-id',temp_id);
+
+    // depth adjustors
+    this.addDepthAdjustors(newChapter.find('.depth-change'));
+
+    newChapter.find('textarea').autosize();
+    newChapter.find('.delete-article').click( function(){ widget.deleteContent(this); } );
+
+    this.addDepthPadding();
 }
 
 CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
@@ -120,9 +173,9 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
             progressStatus.css('width', '100%');
             widget.substituteTemporaryIds(data.result);
 
-            var articleId = $(element).closest('.article').data('article-id');
-            $.each(data.result.articles, function(){
-                if((this._id == articleId) || (this.temp_id == articleId)){
+            var contentId = $(element).closest('.content').data('content-id');
+            $.each(data.result.contents, function(){
+                if((this._id == contentId) || (this.temp_id == contentId)){
                     // show a thumbnail of the first page
                     $(element).parent().find('.file-thumb').empty()
                         .append($('<img>').attr('src',this.file.first_page.url));
@@ -184,37 +237,108 @@ CoursePackEditor.prototype.addPageRangeSlider = function(element, num_pages){
     }
 }
 
+// depth +/- action for the left/right icons on chapters
+CoursePackEditor.prototype.addDepthAdjustors = function(container){
+    var widget = this;
+    $(container).find('.depth-left').click(function(){
+        var input = $(this).closest('.chapter_seperator').find('.depth');
+        var depth = parseInt(input.val());
+        if(depth > 1)
+          input.val(depth-1);
+
+        widget.addDepthPadding();
+    });
+    $(container).find('.depth-right').click(function(){
+        var input = $(this).closest('.chapter_seperator').find('.depth');
+        var depth = parseInt(input.val());
+        input.val(depth+1);
+
+        widget.addDepthPadding();
+    });
+}
+
 // reassign weight values based on the current order of the articles in the dom
 CoursePackEditor.prototype.reassignWeights = function(){
     var weight = 0;
     this.container.find('input.weight').each(function(){
       $(this).val(weight++);
     });
+
+    // reassign depth padding
+    this.addDepthPadding();
 }
 
-CoursePackEditor.prototype.deleteArticle = function(delete_button){
-    var article = $(delete_button).closest('.article');
+// pad out articles/chapter rows based on the chapter depths
+CoursePackEditor.prototype.addDepthPadding = function(){
+    // find the max depth we'll go to
+    var maxDepth = 0;
+    this.container.find('.chapter_seperator input.depth').each(function(){
+        var val = parseInt($(this).val());
+        if(val > maxDepth){
+           maxDepth = val;
+        }
+    });
 
-    // if there is only one article left, leave one empty article container before deleting it
-    if(this.container.find('.article').length == 1){
+    // pad out the articles
+    var curDepth = 0;
+    var withinChapter = false;
+    this.container.find('tr').each(function(){
+        var row = $(this);
+        var isChapter = row.hasClass('chapter_seperator');
+        if(isChapter){
+          curDepth = parseInt(row.find('input.depth').val());
+          withinChapter = true;
+        }
+
+        // set the required number of pads
+        var requiredPads = isChapter ? curDepth-1 : curDepth;
+        var curPads = row.find('td.pad').length;
+        console.log('---');
+        console.log(row.find('input.depth'));
+        console.log(row.find('input.depth').val());
+        console.log(curDepth);
+        console.log(curPads);
+        console.log(requiredPads);
+        while(curPads > requiredPads){
+          row.children('td.pad').first().remove();
+          curPads--;
+        }
+        while(curPads < requiredPads){
+            row.prepend($('<td>').addClass('pad'));
+            curPads++;
+        }
+
+        // make the data column span across any unused columns
+        row.find('td.data').attr('colspan', maxDepth-requiredPads+2);
+    });
+}
+
+CoursePackEditor.prototype.deleteContent = function(delete_button){
+    var content = $(delete_button).closest('.content');
+
+    // if there will be no articles left, add a blank one
+    if(content.hasClass('article') && (this.container.find('.article').length == 1)){
         this.newArticle();
     }
-    article.remove();
+
+    content.remove();
+
+    this.addDepthPadding();
 }
 
 // replace temporary IDs assigned to articles with any permanent IDs returned back by the server;
 CoursePackEditor.prototype.substituteTemporaryIds = function(course_pack_data){
-    if(course_pack_data.articles){
-        $.each(course_pack_data.articles, function(){
+    if(course_pack_data.contents){
+        $.each(course_pack_data.contents, function(){
             if(this._id && this.temp_id)
             {
                 var id_input = $('#' + this.temp_id);
                 id_input.attr('name', id_input.attr('name').replace('temp_', ''))
                         .val(this._id);
 
-                $('.article').each(function(){
-                    if($(this).data('article-id') == this.temp_id)
-                      $(this).data('article-id', this.id);
+                $('.content').each(function(){
+                    if($(this).data('content-id') == this.temp_id)
+                      $(this).data('content-id', this.id);
                 });
             }
         });

@@ -17,10 +17,10 @@ class CoursePack
   mount_uploader :preview, UnprocessedFile
   field :preview_generated_at, type: Time
 
-  has_many :articles, order: 'weight ASC'
-  accepts_nested_attributes_for :articles, allow_destroy: true
+  has_many :contents, order: 'weight ASC'
+  accepts_nested_attributes_for :contents, allow_destroy: true
 
-  attr_accessible :articles_attributes, :title, :author, :date
+  attr_accessible :contents_attributes, :title, :author, :date
 
   def generate_preview
     return false unless articles.any?{|a| !a.file.swf.path.nil? }
@@ -42,11 +42,16 @@ class CoursePack
     end.compact
 
     # merge the article swf's together
-    outfile = Tempfile.new(["#{id}-preview",".swf"])
-    SwfUtils::merge(([title_page.swf.path, toc.swf.path] + article_swfs.map(&:path)), outfile.path)
-    raise "Error merging files" if outfile.length == 0
+    merged = Tempfile.new(["#{id}-preview-merged",".swf"])
+    SwfUtils::merge(([title_page.swf.path, toc.swf.path] + article_swfs.map(&:path)), merged.path)
+    raise "Error merging files" if merged.length == 0
 
-    self.preview = CarrierWave::SanitizedFile.new(outfile)
+    # TO DO add page numbers
+    #paged = Tempfile.new(["#{id}-preview-paged",".swf"])
+    #SwfUtils::stamp_page_numbers(merged.path, number_of_pages, paged.path)
+    #raise "Error adding page numbers files" if paged.length == 0
+
+    self.preview = CarrierWave::SanitizedFile.new(merged)
     self.preview_generated_at = Time.now
     save!
   end
@@ -54,16 +59,12 @@ class CoursePack
   def preview_up_to_date?
     !preview_generated_at.nil? && # preview has been generated
     updated_at.to_time.to_i <= preview_generated_at.to_time.to_i && # course pack changes are older than preview
-    articles.all?{|a| a.updated_at.to_time.to_i <= preview_generated_at.to_time.to_i } # article changes are older
+    contents.all?{|a| a.updated_at.to_time.to_i <= preview_generated_at.to_time.to_i } # article changes are older
   end
 
-  # number of pages overall (all articles, plus toc, but not the title page)
-  def number_of_pages                                            s
-    pages = articles.map{|a| a.num_pages_after_trimming}.reduce(0,:+)
-    unless toc.path.nil?
-      pages += PdfUtils::count_pages(toc.path)
-    end
-    pages
+  # number of pages overall (all articles, but not the title page or TOC)
+  def number_of_pages
+    articles.map{|a| a.num_pages_after_trimming}.reduce(0,:+)
   end
 
   # start page of a particular article
@@ -77,17 +78,21 @@ class CoursePack
   # error messages w/ full details for nested articles
   def error_messages
     errors = self.errors.full_messages
-    if errors.delete 'Articles is invalid'
-      self.articles.each do |a|
+    if errors.delete 'Contents is invalid'
+      self.contents.each do |a|
         errors += a.errors.messages.values
       end
     end
     errors
   end
 
+  def articles
+    contents.where(_type: 'Article')
+  end
+
   def as_json(options={})
     result = super(options)
-    result[:articles] = articles.map{|a| a.as_json(options)}
+    result[:contents] = contents.map{|a| a.as_json(options)}
     result
   end
 

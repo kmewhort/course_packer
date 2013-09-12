@@ -53,6 +53,6 @@ class CoursePacksController < ApplicationController
 
   def build_course_pack
     @course_pack = CoursePack.new
-    @course_pack.articles.build #seed with an empty article
+    @course_pack.contents.build({}, Article) #seed with an empty article
   end
 end

@@ -1,0 +1,12 @@
+<li class="article">
+  <span class="title"><%= article.title %>&nbsp;</span>
+  <span class="page-number"><%= article.course_pack.page_number_of(article) %></span>
+  <div class="details">
+    <% unless article.author.nil? || article.author.empty? %>
+        <div class="author">By <%= article.author %></div>
+    <% end %>
+    <% unless article.reference.nil? || article.reference.empty? %>
+        <div class="reference"><%= article.reference %></div>
+    <% end %>
+  </div>
+</li>

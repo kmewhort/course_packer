@@ -15,12 +15,17 @@
     <div class="col-lg-5 editor">
     <%= simple_form_for(@course_pack) do |f| %>
         <table class="table table-hover table-bordered">
-          <%= f.fields_for :articles do |f| %>
-                <%= render partial: 'article', locals: {f: f} %>
+          <%= f.fields_for :contents do |f| %>
+              <% if f.object[:_type] == 'Article' %>
+                <%= render partial: 'article', locals: {f: f } %>
+              <% elsif f.object[:_type] == 'ChapterSeperator' %>
+                <%= render partial: 'chapter_seperator', locals: {f: f } %>
+              <% end %>
           <% end %>
         </table>
         <div class="add-buttons">
-          <a href="#" id="add-article" class="btn btn-default btn-sm">Add item</a>
+          <a href="#" id="add-article" class="btn btn-default btn-sm">Add article</a>
+          <a href="#" id="add-chapter" class="btn btn-default btn-sm">Add chapter</a>
         </div>
         <%= f.submit 'Save & Update Preview', class: 'btn btn-primary save' %>
     <% end %>
@@ -31,3 +36,24 @@
   </div>
   </div>
 </div>
+
+<!-- Basic no-variable micro-templates for articles and chapter seperators -->
+<script type="text/html" id="article-template">
+  <table>
+  <%= simple_form_for(@course_pack) do |f| %>
+    <%= f.fields_for(:contents, @course_pack.contents.build({},Article)) do |f| %>
+        <%= render partial: 'article', locals: { f: f } %>
+    <% end %>
+  <% end %>
+  </table>
+</script>
+
+<script type="text/html" id="chapter-seperator-template">
+  <table>
+  <%= simple_form_for(@course_pack) do |f| %>
+      <%= f.fields_for(:contents, @course_pack.contents.build({},ChapterSeperator)) do |f| %>
+          <%= render partial: 'chapter_seperator', locals: { f: f } %>
+      <% end %>
+  <% end %>
+  </table>
+</script>

@@ -48,9 +48,10 @@ module PdfUtils
     num_pages = count_pages(input_file)
     template_file = nil
     [25,50,200,500,1000,5000,10000].each do |template_size|
-      next unless template_size >= num_pages
-
-      template_file = "#{File.dirname(__FILE__)}/pdf_utils/page_numbers/page_numbers_1_#{template_size}.pdf"
+      if template_size >= num_pages
+        template_file = "#{File.dirname(__FILE__)}/pdf_utils/page_numbers/pagenumbers_1_#{template_size}.pdf"
+        break
+      end
     end
     raise "Unable to find sufficiently large page number template file." if template_file.nil?
 
