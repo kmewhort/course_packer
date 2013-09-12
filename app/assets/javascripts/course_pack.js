@@ -47,6 +47,9 @@ $(document).ready(function(){
                 },
                 complete: function(){
                     btn.removeAttr('disabled');
+                },
+                error: function(){
+                    preview.clear();
                 }
               });
             },

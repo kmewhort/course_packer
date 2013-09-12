@@ -64,17 +64,17 @@ CoursePackEditor.prototype.newArticle = function(){
     // assign an index (in the name attributes)
     var max_index = 0;
     this.container.find('tr').each(function(){
-      var name = $(this).find('.title input').attr('name');
-      var index = parseInt(/(\d+)/.exec(name)[1]);
+      var index = widget.rowIndex(this);
       if(index > max_index)
         max_index = index;
     });
-    newArticle.find('input').each(function(){
+    newArticle.find('input, textarea').each(function(){
         var name = $(this).attr('name');
         if(name){
           $(this).attr('name', name.replace(/\d+/, max_index+1));
         }
     });
+    newArticle.data('row-index', max_index+1);
 
     // assign a temporary id
     var temp_id = this.uniqueTemporaryId();
@@ -108,17 +108,17 @@ CoursePackEditor.prototype.newChapter = function(){
     // assign an index (in the name attributes)
     var max_index = 0;
     this.container.find('tr').each(function(){
-        var name = $(this).find('.title input').attr('name');
-        var index = parseInt(/(\d+)/.exec(name)[1]);
+        var index = widget.rowIndex(this);
         if(index > max_index)
             max_index = index;
     });
-    newChapter.find('input').each(function(){
+    newChapter.find('input,textarea').each(function(){
         var name = $(this).attr('name');
         if(name){
             $(this).attr('name', name.replace(/\d+/, max_index+1));
         }
     });
+    newChapter.data('row-index', max_index+1);
 
     // assign a temporary id
     var temp_id = this.uniqueTemporaryId();
@@ -293,12 +293,6 @@ CoursePackEditor.prototype.addDepthPadding = function(){
         // set the required number of pads
         var requiredPads = isChapter ? curDepth-1 : curDepth;
         var curPads = row.find('td.pad').length;
-        console.log('---');
-        console.log(row.find('input.depth'));
-        console.log(row.find('input.depth').val());
-        console.log(curDepth);
-        console.log(curPads);
-        console.log(requiredPads);
         while(curPads > requiredPads){
           row.children('td.pad').first().remove();
           curPads--;
@@ -315,15 +309,36 @@ CoursePackEditor.prototype.addDepthPadding = function(){
 
 CoursePackEditor.prototype.deleteContent = function(delete_button){
     var content = $(delete_button).closest('.content');
+    var is_article = content.hasClass('article');
+
+    // hide the article
+    content.attr('class', 'content deleted').css('display', 'none');
+
+    // mark the content for deletion
+    var index = this.rowIndex(content);
+    var delete_marker = $('<input>').attr('type', 'hidden').attr('value', '1')
+        .attr('name', 'course_pack[contents_attributes][' + index + '][_destroy]');
+    content.find('td.data').empty().append(delete_marker);
 
     // if there will be no articles left, add a blank one
-    if(content.hasClass('article') && (this.container.find('.article').length == 1)){
+    if(is_article && (this.container.find('.article').length == 0)){
         this.newArticle();
     }
 
-    content.remove();
-
     this.addDepthPadding();
+}
+
+CoursePackEditor.prototype.rowIndex = function(row){
+    // check if the index is set in the row data
+    var index = $(row).data('row-index');
+
+    // otherwise, parse it out of the title attribute
+    if(typeof(index) == 'undefined'){
+      var name = $(row).find('.title input').attr('name');
+      index = /(\d+)/.exec(name)[1];
+      $(row).data('row-index', index);
+    }
+    return parseInt(index);
 }
 
 // replace temporary IDs assigned to articles with any permanent IDs returned back by the server;

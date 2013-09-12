@@ -37,3 +37,7 @@ Preview.prototype.load = function(swf_file){
             jsDirectory : '/assets/foobar/' //flexpaper.js looks for FlexPaperViewer.swf in <jsDirectory>/../
         }});
 }
+
+Preview.prototype.clear = function(){
+  this.container.empty();
+}

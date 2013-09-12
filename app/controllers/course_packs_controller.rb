@@ -1,6 +1,7 @@
 class CoursePacksController < ApplicationController
   before_filter :find_course_pack, only: [:edit, :update, :preview]
   before_filter :build_course_pack, only: [:create]
+  before_filter :clean_params, only: [:update]
 
   def create
     @course_pack.save #save immediately to allow in-place editing
@@ -54,5 +55,16 @@ class CoursePacksController < ApplicationController
   def build_course_pack
     @course_pack = CoursePack.new
     @course_pack.contents.build({}, Article) #seed with an empty article
+  end
+
+  def clean_params
+    # a concurrent request may have already destroyed an article, so clean out params for non-existent items
+    if params[:course_pack] && params[:course_pack][:contents_attributes]
+      existing_ids = @course_pack.contents.map{|cp| cp.id.to_s}
+      params[:course_pack][:contents_attributes].delete_if do |k, v|
+        !v['id'].nil? && !existing_ids.include?(v['id'])
+      end
+    end
+    test = "test"
   end
 end
