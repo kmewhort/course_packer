@@ -30,19 +30,83 @@ ol li {
 
 
 /* TOC */
-.article .title, .article ol,
-.article .page-number {
+.toc {
     font-size: 18pt;
 }
 
-.article .details {
-    padding-left: 10px;
-    font-size: 15pt;
-}
-.article .author {
+.author {
     font-style: italic;
 }
+.author, .reference {
+    font-size: 14pt;
+    line-height: 16pt;
+}
+
 
 .page-number {
     float: right;
+    position: absolute;
+    right: 0;
 }
+
+.toc ul {
+    list-style-type: none;
+    margin: 0;
+}
+.toc li {
+    list-style-type: none;
+    margin-left: 66px;
+    margin-bottom: 9px;
+}
+
+ul.toc, .toc ul {
+    margin: 0;
+    padding: 0;
+}
+ul.toc > li {
+  margin-left: 0
+}
+ul.toc {
+    margin-right: 24px;
+}
+
+
+.toc .chapter-title,
+.toc .chapter.section-number{
+    font-weight: bold;
+}
+
+.toc .section-number {
+    display: inline-block;
+    vertical-align: top;
+}
+.toc .details {
+    display: inline;
+    vertical-align: top;
+}
+
+.toc ul .chapter.section-number {
+    width: 34px;
+}
+.toc .author, .toc .reference {
+    margin-left: 34px;
+    padding-left: 8px;
+}
+
+.toc ul .section-number,
+.toc ul ul .chapter.section-number{
+    width: 52px;
+}
+.toc ul .author, .toc ul .reference {
+    margin-left: 52px;
+}
+
+.toc ul ul .section-number,
+.toc ul ul ul .chapter.section-number {
+    width: 72px;
+}
+.toc ul ul .author, .toc ul ul  .reference {
+    margin-left: 72px;
+    padding-left: 8px;
+}
+

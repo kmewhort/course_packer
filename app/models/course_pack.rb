@@ -75,6 +75,44 @@ class CoursePack
     end
   end
 
+  def section_number_of(content)
+    depth = 0
+    section_number = ''
+    prev_item = nil
+    contents.sort_by(&:weight).each do |item|
+      if item[:_type] == 'ChapterSeperator'
+        # add sub-sections up to the new chapter depth
+        for i in depth...item.depth do
+          if i == (item.depth-1)
+            section_number += '.0'
+          else
+            section_number += '.1'
+          end
+        end
+
+        # drop sub-sections down to the new chapter depth
+        for i in item.depth...depth do
+          section_number.sub!(/\.\d+\Z/, '')
+        end
+
+        # drop off the article section number if we're coming off of articles
+        if !prev_item.nil? && (prev_item[:_type] == 'Article')
+          section_number.sub!(/\.\d+\Z/, '')
+        end
+
+        depth = item.depth
+      else # type == Article
+        section_number += '.0' unless prev_item[:_type] == 'Article'
+      end
+
+      section_number.sub!(/(\d+)\Z/) do |m|
+        m.to_i + 1 # increment
+      end
+      return section_number[1..-1] if item == content
+      prev_item = item
+    end
+  end
+
   # error messages w/ full details for nested articles
   def error_messages
     errors = self.errors.full_messages

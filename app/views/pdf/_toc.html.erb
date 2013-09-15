@@ -2,22 +2,28 @@
 <html>
 <head>
   <style type='text/css'>
-    <%= render partial: 'pdf/style' %>
+    <%= render partial: 'pdf/style.css' %>
   </style>
 </head>
 <body>
 <h1>Table of Contents</h1>
-<ol>
-  <% cur_depth = 0
-     course_pack.contents.sort_by(&:weight).each do |content| %>
-      <% if content[:_type] == 'Article' %>
-        <%= render partial: 'pdf/toc_article', locals: {article: content} %>
-      <% elsif content[:_type] == 'ChapterSeperator' %>
-        <%= render partial: 'pdf/toc_chapter_seperator', locals: {chapter: content, cur_depth: cur_depth } %>
-        <% cur_depth = content.depth %>
-      <% end %>
+<ul class="toc">
+  <% contents = course_pack.contents.sort_by(&:weight)
+  if !contents.empty? && (contents.first[:_type] == 'Article') %>
+    <ul>
+  <% end %>
+  <% cur_depth = 0; contents.each do |content| %>
+    <% if content[:_type] == 'Article' %>
+      <%= render partial: 'pdf/toc_article', locals: {article: content, cur_depth: cur_depth } %>
+    <% elsif content[:_type] == 'ChapterSeperator' %>
+      <%= render partial: 'pdf/toc_chapter_seperator', locals: {chapter: content, cur_depth: cur_depth } %>
+      <% cur_depth = content.depth %>
+    <% end %>
   <% end %>
   <%= render partial: 'pdf/toc_chapter_seperator', locals: { chapter: nil, cur_depth: cur_depth } %>
-</ol>
+  <% if !contents.empty? && (contents.first[:_type] == 'Article') %>
+    </ul>
+  <% end %>
+</ul>
 </body>
 </html>

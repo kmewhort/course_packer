@@ -1,7 +1,11 @@
 <% chapter_depth = chapter.nil? ? 0 : chapter.depth %>
 <% while cur_depth > chapter_depth %>
-  </ol>
+  </ul></li>
 <% cur_depth = cur_depth-1; end %>
 <% while cur_depth < chapter_depth %>
-  <ol>
-<% cur_depth = cur_depth + 1; end %><%= chapter.nil? ? '' : chapter.title %>
+  <li><ul>
+<% cur_depth = cur_depth + 1; end %>
+<% unless chapter.nil? %>
+  <span class="chapter section-number"><%= chapter.course_pack.section_number_of(chapter) %>.</span>
+  <span class="chapter-title"><%= chapter.title %></span>
+<% end %>

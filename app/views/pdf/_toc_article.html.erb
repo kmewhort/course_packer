@@ -1,7 +1,8 @@
 <li class="article">
-  <span class="title"><%= article.title %>&nbsp;</span>
-  <span class="page-number"><%= article.course_pack.page_number_of(article) %></span>
+  <span class="section-number"><%= article.course_pack.section_number_of(article) %>.</span>
   <div class="details">
+    <span class="page-number"><%= article.course_pack.page_number_of(article) %></span>
+    <span class="title"><%= article.title %>&nbsp;</span>
     <% unless article.author.nil? || article.author.empty? %>
         <div class="author">By <%= article.author %></div>
     <% end %>
