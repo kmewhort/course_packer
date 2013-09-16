@@ -11,9 +11,10 @@ $(document).ready(function(){
     // load course pack preview
     var preview = new Preview($('#preview')[0]);
     $.ajax({
-        url: '/course_packs/' + course_pack_id + '/preview',
+        url: '/course_packs/' + course_pack_id + '/prepare_preview',
+        method: 'PUT',
         success: function(data){
-          preview.load(data.preview_file);
+          preview.load('/course_packs/' + course_pack_id + '/preview.pdf');
         }
     });
 
@@ -39,9 +40,10 @@ $(document).ready(function(){
 
               // load the preview
               $.ajax({
-                url: '/course_packs/' + course_pack_id + '/preview',
+                url: '/course_packs/' + course_pack_id + '/prepare_preview',
+                method: 'PUT',
                 success: function(data){
-                  preview.load(data.preview_file);
+                   preview.load('/course_packs/' + course_pack_id + '/preview.pdf');
                 },
                 complete: function(){
                     btn.removeAttr('disabled');

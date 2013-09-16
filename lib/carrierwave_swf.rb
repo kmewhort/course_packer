@@ -1,1 +1,0 @@
-require 'carrierwave_swf/processor'

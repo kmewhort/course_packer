@@ -1,5 +1,4 @@
 require 'pdf_utils'
-require 'swf_utils'
 require 'carrierwave'
 require 'libreconv'
 
@@ -23,33 +22,38 @@ class CoursePack
   attr_accessible :contents_attributes, :title, :author, :date
 
   def generate_preview
-    return false unless articles.any?{|a| !a.file.swf.path.nil? }
+    return false unless articles.any?{|a| !a.file.pdf.path.nil? }
 
-    # generate the TOC and title page (ERB->html->pdf->swf)
+    # generate the TOC and title page (ERB->html->pdf)
     generate_title_page
     generate_toc
     save!
 
     # get the page-trimmed articles
-    article_swfs = articles.sort_by(&:weight).map do |a|
-      if a.file.swf.path.nil?
+    article_pdfs = articles.sort_by(&:weight).map do |a|
+      if a.file.pdf.path.nil?
         nil
       elsif !a.trimmed?
-        a.file.swf
+        a.file.pdf
       else
-        a.trimmed_swf
+        a.trimmed_pdf
       end
     end.compact
 
-    # merge the article swf's together
-    merged = Tempfile.new(["#{id}-preview-merged",".swf"])
-    SwfUtils::merge(([title_page.swf.path, toc.swf.path] + article_swfs.map(&:path)), merged.path)
-    raise "Error merging files" if merged.length == 0
+    # merge the article pdf's together
+    merged_articles = Tempfile.new(["#{id}-preview-merged",".pdf"])
+    PdfUtils::merge(article_pdfs.map(&:path), merged_articles.path)
+    raise "Error merging files" if merged_articles.length == 0
 
-    # TO DO add page numbers
-    #paged = Tempfile.new(["#{id}-preview-paged",".swf"])
-    #SwfUtils::stamp_page_numbers(merged.path, number_of_pages, paged.path)
-    #raise "Error adding page numbers files" if paged.length == 0
+    # add page numbers
+    paged = Tempfile.new(["#{id}-preview-paged",".pdf"])
+    PdfUtils::stamp_page_numbers(merged_articles.path, paged.path, number_of_pages)
+    raise "Error adding page numbers files" if paged.length == 0
+
+    # add the title page and toc
+    merged = Tempfile.new(["#{id}-preview-final",".pdf"])
+    PdfUtils::merge([title_page.pdf.path, toc.pdf.path, paged.path], merged.path)
+    raise "Error merging files" if merged.length == 0
 
     self.preview = CarrierWave::SanitizedFile.new(merged)
     self.preview_generated_at = Time.now

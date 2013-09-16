@@ -1,5 +1,4 @@
 require 'pdf_utils'
-require 'swf_utils'
 
 class Article < Content
 
@@ -27,19 +26,19 @@ class Article < Content
     range[1] - range[0] + 1
   end
 
-  def trimmed_swf(outfile = nil)
-    raise 'No SWF file found' if file.swf.path.nil?
+  def trimmed_pdf(outfile = nil)
+    raise 'No PDF file found' if file.pdf.path.nil?
 
     # save to a temp file if no outfile is specified
     if outfile.nil?
-      outfile = Tempfile.new(["#{id}-trimmed",".swf"])
+      outfile = Tempfile.new(["#{id}-trimmed",".pdf"])
     end
 
     if !trimmed?
-      FileUtils.copy(file.swf.path, outfile)
+      FileUtils.copy(file.pdf.path, outfile)
     else
       pages = trimmed_page_range
-      SwfUtils::extract_pages(file.swf.path, outfile.path, "#{pages[0]-1}-#{pages[1]-1}")
+      PdfUtils::extract_pages(file.pdf.path, outfile.path, "#{pages[0]-1}-#{pages[1]-1}")
     end
 
     outfile

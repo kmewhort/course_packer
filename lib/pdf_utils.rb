@@ -43,9 +43,9 @@ module PdfUtils
   end
 
   # stamp page numbers onto document, using pdftk
-  def self.stamp_page_numbers(input_file, output_file)
+  def self.stamp_page_numbers(input_file, output_file, num_pages = nil)
     # use the smallest available page number template
-    num_pages = count_pages(input_file)
+    num_pages ||= count_pages(input_file)
     template_file = nil
     [25,50,200,500,1000,5000,10000].each do |template_size|
       if template_size >= num_pages

@@ -1,5 +1,4 @@
 require 'carrierwave_libreconv'
-require 'carrierwave_swf'
 require 'carrierwave_mupdf'
 
 # uploader for article documents
@@ -10,7 +9,6 @@ class DocUploader < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
   include CarrierWave::Libreconv
-  include CarrierWave::Swf
   include CarrierWave::MuPdf
 
   # include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:
@@ -29,10 +27,6 @@ class DocUploader < CarrierWave::Uploader::Base
 
   version :pdf do
     process :convert_to_pdf
-  end
-
-  version :swf, :from_version => :pdf do
-    process :convert_to_swf
   end
 
   version :first_page, :from_version => :pdf do

@@ -1,5 +1,5 @@
 class CoursePacksController < ApplicationController
-  before_filter :find_course_pack, only: [:edit, :update, :preview]
+  before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview]
   before_filter :build_course_pack, only: [:create]
   before_filter :build_articles, only: [:update]
 
@@ -33,22 +33,27 @@ class CoursePacksController < ApplicationController
     end
   end
 
-  def preview
-    # if there have been no updates, use the cached version
+  def prepare_preview
+    # if there have been no updates, no need to re-generate
     if @course_pack.preview_up_to_date?
       respond_to do |format|
-        format.json { render json: { preview_file: @course_pack.preview.url } }
+        format.json { head :no_content }
       end
       return
     end
 
     respond_to do |format|
       if @course_pack.generate_preview
-        format.json { render json: { preview_file: @course_pack.preview.url } }
+        format.json { head :no_content }
       else
         format.json { render json: @course_pack.error_messages, status: :unprocessable_entity }
       end
     end
+  end
+
+  def preview
+    self.response_body = File.read(@course_pack.preview.path)
+    self.content_type = 'application/pdf'
   end
 
   private
