@@ -50,7 +50,7 @@
 
     .file-upload {
       display: inline-block;
-      margin: 9px 0;
+      margin: 9px 0 3px 0;
 
       .fileinput-button {
         padding: 0 6px;
@@ -62,8 +62,16 @@
       }
     }
 
+    .file-types {
+      font-size: 70%;
+    }
+
     .file-thumb {
       display: inline-block;
+      margin-left: 4px;
+      margin-top: 8px;
+      vertical-align: top;
+
       img {
         border: 1px solid #D5D5D5;
         height: 40px;
@@ -176,7 +184,7 @@
       float: right;
       padding-bottom: 0;
       padding-right: 4px;
-      padding-top: 16px;
+      padding-top: 20px;
 
       .delete-article {
         margin-left: 6px;
