@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Table of Contents</h1>
+
 <ul class="toc">
   <% contents = course_pack.contents.sort_by(&:weight)
   if !contents.empty? && (contents.first[:_type] == 'Article') %>

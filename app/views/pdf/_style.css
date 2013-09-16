@@ -63,7 +63,8 @@ ul.toc, .toc ul {
     margin: 0;
     padding: 0;
 }
-ul.toc > li {
+ul.toc > li,
+ul.toc > ul > li {
   margin-left: 0
 }
 ul.toc {

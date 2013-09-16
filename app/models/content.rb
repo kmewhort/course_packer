@@ -7,21 +7,7 @@ class Content
   field :title, type: String, default: ""
   field :num_pages, type: Integer
   field :weight, type: Integer, default: 0 #controls order of appearance in the CoursePack
-  attr_accessible :title, :num_pages, :weight, :_type
-  attr_accessor :temp_id
+  attr_accessible :title, :num_pages, :weight, :_type, :_id
 
   before_destroy {|content| content.course_pack.touch }
-
-  def initialize(attributes, options)
-    super(attributes, options)
-
-    # also initialize the non-persistent temp_id
-    @temp_id = attributes[:temp_id]
-  end
-
-  def as_json(options={})
-    result = super(options)
-    result[:temp_id] = temp_id
-    result
-  end
 end

@@ -36,8 +36,6 @@ $(document).ready(function(){
             data: form.serialize(),
             dataType: 'json',
             success: function(data){
-              // get the permanent article ids
-              editor.substituteTemporaryIds(data);
 
               // load the preview
               $.ajax({

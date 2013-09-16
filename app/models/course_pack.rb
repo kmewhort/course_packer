@@ -102,7 +102,7 @@ class CoursePack
 
         depth = item.depth
       else # type == Article
-        section_number += '.0' unless prev_item[:_type] == 'Article'
+        section_number += '.0' if prev_item.nil? || prev_item[:_type] == 'ChapterSeperator'
       end
 
       section_number.sub!(/(\d+)\Z/) do |m|

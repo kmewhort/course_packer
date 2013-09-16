@@ -76,14 +76,14 @@ CoursePackEditor.prototype.newArticle = function(){
     });
     newArticle.data('row-index', max_index+1);
 
-    // assign a temporary id
-    var temp_id = this.uniqueTemporaryId();
-    $('<input>').attr('id',temp_id)
-        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][temp_id]')
+    // assign a unique id
+    var id = this.uniqueId();
+    $('<input>').attr('id',id)
+        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][_id]')
         .attr('type', 'hidden')
-        .val(temp_id)
+        .val(id)
         .insertAfter(newArticle);
-    newArticle.data('content-id',temp_id);
+    newArticle.data('content-id',id);
 
     this.ajaxifyFileUpload(newArticle.find('.file-upload'));
     newArticle.find('textarea').autosize();
@@ -120,14 +120,14 @@ CoursePackEditor.prototype.newChapter = function(){
     });
     newChapter.data('row-index', max_index+1);
 
-    // assign a temporary id
-    var temp_id = this.uniqueTemporaryId();
-    $('<input>').attr('id',temp_id)
-        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][temp_id]')
+    // assign a unique id
+    var id = this.uniqueId();
+    $('<input>').attr('id',id)
+        .attr('name', 'course_pack[contents_attributes][' + (max_index+1) + '][_id]')
         .attr('type', 'hidden')
-        .val(temp_id)
+        .val(id)
         .insertAfter(newChapter);
-    newChapter.data('content-id',temp_id);
+    newChapter.data('content-id',id);
 
     // depth adjustors
     this.addDepthAdjustors(newChapter.find('.depth-change'));
@@ -169,13 +169,11 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
             }
         },
         done: function (e, data) {
-            // replace any temporary IDs with the permanent ones
             progressStatus.css('width', '100%');
-            widget.substituteTemporaryIds(data.result);
 
             var contentId = $(element).closest('.content').data('content-id');
             $.each(data.result.contents, function(){
-                if((this._id == contentId) || (this.temp_id == contentId)){
+                if(this._id == contentId){
                     // show a thumbnail of the first page
                     $(element).parent().find('.file-thumb').empty()
                         .append($('<img>').attr('src',this.file.first_page.url));
@@ -355,27 +353,11 @@ CoursePackEditor.prototype.rowIndex = function(row){
     return parseInt(index);
 }
 
-// replace temporary IDs assigned to articles with any permanent IDs returned back by the server;
-CoursePackEditor.prototype.substituteTemporaryIds = function(course_pack_data){
-    if(course_pack_data.contents){
-        $.each(course_pack_data.contents, function(){
-            if(this._id && this.temp_id)
-            {
-                var id_input = $('#' + this.temp_id);
-                id_input.attr('name', id_input.attr('name').replace('temp_', ''))
-                        .val(this._id);
 
-                $('.content').each(function(){
-                    if($(this).data('content-id') == this.temp_id)
-                      $(this).data('content-id', this.id);
-                });
-            }
-        });
-    }
-}
-
-CoursePackEditor.prototype.uniqueTemporaryId = function(element){
-    if(typeof(this.temp_id_iterator) == 'undefined')
-      this.temp_id_iterator = 0;
-    return 'course-pack-editor-tid-' + (++this.temp_id_iterator);
+/* generate random unique id */
+CoursePackEditor.prototype.uniqueId = function(element){
+    var uid = "";
+    for(i = 0; i < 32; i++)
+        uid += (Math.random()*16|0).toString(16);
+    return uid;
 }
