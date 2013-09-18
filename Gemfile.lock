@@ -7,6 +7,14 @@ GIT
       rails (>= 3.1)
 
 GIT
+  remote: git://github.com/kmewhort/creative_commons_rails.git
+  revision: 065a134fcafde8678219f81ea00eb3613a08be0a
+  specs:
+    creative_commons_rails (0.9)
+      i18n
+      rails
+
+GIT
   remote: git://github.com/kmewhort/libreconv.git
   revision: b20de68e5e3c7e6ba5c65d92af643b7771ae3fb0
   specs:
@@ -19,13 +27,6 @@ GIT
   specs:
     less-rails-bootstrap (3.0.0.wip)
       less-rails (~> 2.3.1)
-
-PATH
-  remote: ../creative_commons_rails
-  specs:
-    creative_commons_rails (0.9)
-      i18n
-      rails
 
 GEM
   remote: https://rubygems.org/
