@@ -8,9 +8,12 @@ class Article < Content
   field :page_start, type: Integer
   field :page_end, type: Integer
   mount_uploader :file, DocUploader
-  attr_accessible :author, :reference, :page_start, :page_end, :file, :weight
+  attr_accessible :author, :reference, :page_start, :page_end, :file, :weight, :license_attributes
 
-  after_save :count_pages
+  embeds_one :license
+  accepts_nested_attributes_for :license, allow_destroy: true
+
+  after_save { self.reload; count_pages }
 
   def has_file?
     !file.path.nil?
@@ -26,22 +29,31 @@ class Article < Content
     range[1] - range[0] + 1
   end
 
-  def trimmed_pdf(outfile = nil)
+  # article in pdf, page trimmed and attribution stamped
+  # note: may return a Tempfile (not unlinked)
+  def prepared_pdf
     raise 'No PDF file found' if file.pdf.path.nil?
 
-    # save to a temp file if no outfile is specified
-    if outfile.nil?
-      outfile = Tempfile.new(["#{id}-trimmed",".pdf"])
-    end
-
-    if !trimmed?
-      FileUtils.copy(file.pdf.path, outfile)
+    trimmed = if !self.trimmed?
+      self.file.pdf
     else
+      # save trimmed article to a temp file
+      temp = Tempfile.new(["#{id}-trimmed",".pdf"])
       pages = trimmed_page_range
-      PdfUtils::extract_pages(file.pdf.path, outfile.path, "#{pages[0]-1}-#{pages[1]-1}")
+      PdfUtils::extract_pages(file.pdf.path, temp.path, "#{pages[0]-1}-#{pages[1]-1}")
+      temp
     end
 
-    outfile
+    attributed = trimmed
+    if !license.nil?
+      footer = license.pdf_attribution_footer
+      unless footer.nil?
+        attributed = Tempfile.new(["#{id}-attributed",".pdf"])
+        PdfUtils::overlay(trimmed.path, footer.path, attributed.path)
+      end
+    end
+
+    attributed
   end
 
   private

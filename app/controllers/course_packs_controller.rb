@@ -2,6 +2,7 @@ class CoursePacksController < ApplicationController
   before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview]
   before_filter :build_course_pack, only: [:create]
   before_filter :build_articles, only: [:update]
+  helper LicenseHelper
 
   def create
     @course_pack.save #save immediately to allow in-place editing
@@ -63,7 +64,10 @@ class CoursePacksController < ApplicationController
 
   def build_course_pack
     @course_pack = CoursePack.new
-    @course_pack.contents.build({}, Article) #seed with an empty article
+
+    #seed with an empty article
+    @course_pack.contents.build({}, Article)
+    @course_pack.contents.last.build_license
   end
 
   def build_articles

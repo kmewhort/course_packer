@@ -1,0 +1,15 @@
+<div id="<%= license.id %>" class="license-chooser">
+<%= simple_fields_for :license, license do |f| %>
+  <%= f.input :type, collection: type_options, label: "License",
+              input_html: { name: "course_pack[contents_attributes][#{article_index}][license_attributes][type]",
+                            class: 'license-type' } %>
+  <% if license.creative_commons? %>
+    <%= f.input :jurisdiction, collection: cc_jurisdiction_options,
+                 input_html: { name: "course_pack[contents_attributes][#{article_index}][license_attributes][jurisdiction]",
+                               class: 'license-jurisdiction' } %>
+    <%= f.input :version, collection: cc_version_options(license),
+                 input_html: { name: "course_pack[contents_attributes][#{article_index}][license_attributes][version]",
+                               class: 'license-version' } %>
+  <% end %>
+<% end %>
+</div>

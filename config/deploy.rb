@@ -15,7 +15,7 @@ set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/course_packer"
 
 # keep the file uploads shared between deployments
-set :shared_children, %w{public/system log tmp/pids public/article public/course_pack public/uploads}
+set :shared_children, %w{public/system log tmp/pids public/article public/course_pack public/license public/uploads}
 
 # use bundler
 require "bundler/capistrano"

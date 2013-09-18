@@ -107,14 +107,19 @@
       padding: 8px 35px 0 15px;
     }
 
-    .string .controls, .text .controls {
+    .string .controls, .text .controls, .select .controls {
       display: inline-block;
       width: 80%;
-      input, textarea {
+      input, textarea, select {
         min-height: 0;
         padding: 0;
         padding: 1px 2px;
         width: 100%;
+        height: auto;
+
+        option {
+          font-size: 10pt;
+        }
       }
     }
     label {
@@ -209,6 +214,18 @@
         margin-left: 23px;
         .glyphicon {
           cursor: pointer;
+        }
+      }
+    }
+
+    .license {
+      select {
+        font-size: 95%;
+      }
+      .course_pack_article_license_jurisdiction,
+      .course_pack_article_license_version {
+        label {
+          visibility: hidden;
         }
       }
     }

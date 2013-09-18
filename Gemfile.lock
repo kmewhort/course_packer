@@ -20,6 +20,13 @@ GIT
     less-rails-bootstrap (3.0.0.wip)
       less-rails (~> 2.3.1)
 
+PATH
+  remote: ../creative_commons_rails
+  specs:
+    creative_commons_rails (0.9)
+      i18n
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -182,6 +189,8 @@ DEPENDENCIES
   carrierwave
   carrierwave-mongoid
   coffee-rails (~> 3.2.1)
+  creative_commons_rails!
+  i18n
   jquery-rails
   jquery-ui-rails
   less-rails-bootstrap (~> 3.0.0.wip)!

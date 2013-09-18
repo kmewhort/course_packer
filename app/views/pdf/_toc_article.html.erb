@@ -4,10 +4,19 @@
     <span class="page-number"><%= article.course_pack.page_number_of(article) %></span>
     <span class="title"><%= article.title %>&nbsp;</span>
     <% unless article.author.nil? || article.author.empty? %>
-        <div class="author">By <%= article.author %></div>
+        <div class="author info">By <%= article.author %></div>
     <% end %>
     <% unless article.reference.nil? || article.reference.empty? %>
-        <div class="reference"><%= article.reference %></div>
+        <div class="reference info"><%= article.reference %></div>
+    <% end %>
+    <% unless article.license.nil? || article.license.full_title.nil? %>
+        <div class="license info">Licensed under a
+          <% if article.license.url %>
+            <%= link_to article.license.full_title, article.license.url %>
+          <% else %>
+            <%= article.license.full_title %>
+          <% end %>
+          </div>
     <% end %>
   </div>
 </li>

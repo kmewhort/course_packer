@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type='text/css'>
+      <%= render partial: 'pdf/attribution_style' %>
+  </style>
+</head>
+<body>
+<div id="attribution">
+  <%= link_to license_info.deed_url, class: 'image-link' do %>
+      <%= image_tag("file://#{Rails.root.join('vendor','assets','images',license.type + '.png')}",
+                    style: "border-width:0") %>
+  <% end %>
+  <span class="license-label">
+    <%= I18n.t(:license_notice, license_title: link_to(license_info.translated_title, license_info.deed_url)).html_safe %>
+  </span>
+</div>
+</body>
+</html>

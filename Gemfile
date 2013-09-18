@@ -25,7 +25,10 @@ gem 'jquery-ui-rails' # needed for JQuery UI Upload
 
 # doc conversion
 gem 'libreconv', github: 'kmewhort/libreconv'
-gem 'pdfkit' # NOTE: need wkhtml, apt-get install wkhtmltopdf
+gem 'pdfkit' # NOTE: need wkhtml, at least 0.11 for link support (ubuntu repos only have 0.9)
+
+# licenses
+gem 'creative_commons_rails', path: '../creative_commons_rails'
 
 # forms & styling
 gem 'simple_form'
@@ -34,6 +37,9 @@ gem 'jquery-ui-rails'
 
 # deployment
 gem 'capistrano'
+
+# internationalization
+gem 'i18n'
 
 
 

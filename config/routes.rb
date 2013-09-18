@@ -7,5 +7,7 @@ CoursePacker::Application.routes.draw do
     end
   end
 
+  match 'licenses/edit' => 'licenses#edit'
+
   root to: 'course_packs#create'
 end

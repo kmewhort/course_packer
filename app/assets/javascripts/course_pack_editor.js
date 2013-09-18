@@ -90,6 +90,9 @@ CoursePackEditor.prototype.newArticle = function(){
     newArticle.find('.delete-article').click( function(){ widget.deleteContent(this); } );
 
     this.addDepthPadding();
+
+    // initialize license chooser
+    new LicenseChooser(newArticle.find('.license-chooser')[0]);
 }
 
 // add a row for a new chapter

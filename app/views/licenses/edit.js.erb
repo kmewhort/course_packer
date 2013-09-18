@@ -1,0 +1,2 @@
+$('#<%= @license.id %>').replaceWith('<%= j render partial: "edit", locals: {license: @license, article_index: @article_index} %>');
+new LicenseChooser($('#<%= @license.id %>'));

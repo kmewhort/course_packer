@@ -1,4 +1,9 @@
+.toc {
+    font-size: 12pt;
+}
+
 h1 {
+    font-size: 14pt;
     text-align: center;
 }
 
@@ -6,40 +11,13 @@ ol li {
     margin-top: 6px;
 }
 
-/* Title page */
-
-#title-page h1,
-#title-page h2,
-#title-page h3 {
-    text-align: center;
-}
-#title-page h1 {
-    font-size: 30pt;
-    font-weight: bold;
-    margin-top: 50%;
-}
-#title-page h2 {
-    font-size: 28pt;
-}
-#title-page h3 {
-    font-size: 24pt;
-}
-#title-page .author {
-    margin-top: 35%;
-}
-
-
-/* TOC */
-.toc {
-    font-size: 18pt;
-}
 
 .author {
     font-style: italic;
 }
-.author, .reference {
-    font-size: 14pt;
-    line-height: 16pt;
+.info {
+    font-size: 11pt;
+    line-height: 12pt;
 }
 
 
@@ -55,7 +33,7 @@ ol li {
 }
 .toc li {
     list-style-type: none;
-    margin-left: 66px;
+    margin-left: 36px;
     margin-bottom: 9px;
 }
 
@@ -67,6 +45,7 @@ ul.toc > li,
 ul.toc > ul > li {
   margin-left: 0
 }
+
 ul.toc {
     margin-right: 24px;
 }
@@ -87,27 +66,27 @@ ul.toc {
 }
 
 .toc ul .chapter.section-number {
-    width: 34px;
+    width: 24px;
 }
-.toc .author, .toc .reference {
-    margin-left: 34px;
-    padding-left: 8px;
+.toc .info {
+    margin-left: 24px;
+    padding-left: 4px;
 }
 
 .toc ul .section-number,
 .toc ul ul .chapter.section-number{
-    width: 52px;
+    width: 38px;
 }
-.toc ul .author, .toc ul .reference {
-    margin-left: 52px;
+.toc ul .info {
+    margin-left: 38px;
 }
 
 .toc ul ul .section-number,
 .toc ul ul ul .chapter.section-number {
-    width: 72px;
+    width: 52px;
 }
-.toc ul ul .author, .toc ul ul  .reference {
-    margin-left: 72px;
+.toc ul ul .info {
+    margin-left: 52px;
     padding-left: 8px;
 }
 

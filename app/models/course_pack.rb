@@ -33,10 +33,8 @@ class CoursePack
     article_pdfs = articles.sort_by(&:weight).map do |a|
       if a.file.pdf.path.nil?
         nil
-      elsif !a.trimmed?
-        a.file.pdf
       else
-        a.trimmed_pdf
+        a.prepared_pdf
       end
     end.compact
 
@@ -130,6 +128,16 @@ class CoursePack
 
   def articles
     contents.where(_type: 'Article')
+  end
+
+  def build_article
+    new_article = contents.build({},Article)
+    new_article.build_license
+    new_article
+  end
+
+  def build_chapter_seperator
+    contents.build({},ChapterSeperator)
   end
 
   def as_json(options={})

@@ -60,6 +60,14 @@ module PdfUtils
     raise 'Error executing pdftk' unless $?.exitstatus == 0
   end
 
+  # overlay one document onto another, using pdftk
+  def self.overlay(input_file, overlay_file, output_file)
+    #`pdftk #{input_file} stamp #{overlay_file} output #{output_file}`
+    # -- use background instead of stamp to preserve links
+    `pdftk #{overlay_file} multibackground #{input_file} output #{output_file}`
+    raise 'Error executing pdftk' unless $?.exitstatus == 0
+  end
+
   # extract specified page numbers, using pdftk (see pdftk docs for the page_range format)
   def self.extract_pages(input_file, output_file, page_range)
     # check the page_range parameter for invalid characters

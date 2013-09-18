@@ -3,6 +3,9 @@
     <div class="title"><%= f.input :title %></div>
     <div class="author"><%= f.input :author %></div>
     <div class="reference"><%= f.input :reference, as: :text, input_html: { rows: 1 } %></div>
+    <div class="license">
+    <%= render partial: 'licenses/edit', locals: { license: f.object.license, article_index: f.object.course_pack.contents.find_index(f.object) } %>
+    </div>
     <div class="page-range<%= f.object.file.path.nil? ? ' hidden' : '' %>" data-num-pages="<%= f.object.num_pages %>">
       <div class="page-range-inputs">
         <%= f.input :page_start, label: 'Start page', input_html: { class: 'page_start', autocomplete: 'off' } %>
