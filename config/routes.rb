@@ -4,6 +4,8 @@ CoursePacker::Application.routes.draw do
     member do
       put :prepare_preview
       get :preview
+      get :print_selection
+      get :print
     end
   end
 

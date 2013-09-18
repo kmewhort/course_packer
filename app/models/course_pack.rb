@@ -29,6 +29,14 @@ class CoursePack
     generate_toc
     save!
 
+    self.preview = CarrierWave::SanitizedFile.new(self.print(:normal))
+    self.preview_generated_at = Time.now
+    save!
+  end
+
+  def print(type)
+    # TODO: support for different print types
+
     # get the page-trimmed articles
     article_pdfs = articles.sort_by(&:weight).map do |a|
       if a.file.pdf.path.nil?
@@ -53,9 +61,7 @@ class CoursePack
     PdfUtils::merge([title_page.pdf.path, toc.pdf.path, paged.path], merged.path)
     raise "Error merging files" if merged.length == 0
 
-    self.preview = CarrierWave::SanitizedFile.new(merged)
-    self.preview_generated_at = Time.now
-    save!
+    merged
   end
 
   def preview_up_to_date?

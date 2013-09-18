@@ -27,7 +27,11 @@
           <a href="#" id="add-article" class="btn btn-default btn-sm">Add article</a>
           <a href="#" id="add-chapter" class="btn btn-default btn-sm">Add chapter</a>
         </div>
+        <i class="glyphicon glyphicon-hdd"></i>
         <%= f.submit 'Save & Update Preview', class: 'btn btn-primary save' %>
+        <%= link_to print_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary print' do %>
+          <i class="glyphicon glyphicon-print"></i> Print
+        <% end %>
     <% end %>
     </div>
     <div id="preview" class="col-lg-7">

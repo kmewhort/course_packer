@@ -1,5 +1,6 @@
 class CoursePacksController < ApplicationController
-  before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview]
+  before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview,
+                                          :print_selection, :print]
   before_filter :build_course_pack, only: [:create]
   before_filter :build_articles, only: [:update]
   helper LicenseHelper
@@ -54,6 +55,18 @@ class CoursePacksController < ApplicationController
 
   def preview
     self.response_body = File.read(@course_pack.preview.path)
+    self.content_type = 'application/pdf'
+  end
+
+  def print_selection
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def print
+    pdf = @course_pack.print(params[:type].to_sym)
+    self.response_body = File.read(pdf)
     self.content_type = 'application/pdf'
   end
 

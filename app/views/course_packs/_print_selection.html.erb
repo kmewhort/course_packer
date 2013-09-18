@@ -1,0 +1,38 @@
+<div id="print-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Print</h4>
+      </div>
+      <div class="modal-body">
+        <%= link_to print_course_pack_path(@course_pack, type: 'normal') do %>
+        <span class="selection">
+          <i class="glyphicon glyphicon-align-justify"></i>
+          <span class="type">Normal</span>
+          <div class="description">Continuous back-to-back pages</div>
+        </span>
+        <% end %>
+
+        <%= link_to print_course_pack_path(@course_pack, type: 'tab_ready') do %>
+        <span class="selection">
+          <i class= "glyphicon glyphicon-folder-close"></i>
+          <span class="type">Tab-ready</span>
+          <div class="description">Ensures each chapter starts on a new page</div>
+        </span>
+        <% end %>
+
+        <%= link_to print_course_pack_path(@course_pack, type: 'notebook') do %>
+        <span class="selection">
+          <i class="glyphicon glyphicon-book"></i>
+          <span class="type">Notebook</span>
+          <div class="description">Every right-hand-side page is blank (useful for note taking)</div>
+        </span>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

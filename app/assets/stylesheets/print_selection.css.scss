@@ -1,0 +1,41 @@
+#print-modal {
+  .modal-body {
+    text-align: center;
+    padding: 20px 5px;
+  }
+  .selection {
+    margin: 4px;
+    padding: 13px 5px;
+    min-height: 160px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    vertical-align: top;
+
+    cursor: pointer;
+
+    .glyphicon {
+      font-size: 40px;
+      display: block;
+      color: #357EBD;
+
+      line-height: 1.1;
+      padding-top: 12px;
+    }
+
+    .type {
+      font-size: 110%;
+      font-weight: bold;
+    }
+    .description {
+      color: #777;
+      padding-top: 6px;
+    }
+  }
+  .selection:hover {
+    background-color: #9A9C9D;
+  }
+}

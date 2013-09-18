@@ -233,6 +233,22 @@
 
   .btn.save {
     margin-bottom: 18px;
+    padding-left: 32px;
+  }
+  .btn.save, .glyphicon-hdd{
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFF;
+  }
+  .glyphicon-hdd {
+    position: absolute;
+    padding-left: 14px;
+    padding-top: 10px;
+    pointer-events: none;
+  }
+  .btn.print {
+    vertical-align: top;
+    line-height: 18px;
   }
 
   #preview {

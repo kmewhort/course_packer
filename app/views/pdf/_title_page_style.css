@@ -15,9 +15,11 @@ h1 {
 }
 #title-page h2 {
     font-size: 28pt;
+    font-weight: normal;
 }
 #title-page h3 {
     font-size: 24pt;
+    font-weight: normal;s
 }
 #title-page .author {
     margin-top: 35%;

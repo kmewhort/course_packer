@@ -1,0 +1,14 @@
+// load the modal dialog
+console.log('here');
+var popup_anchor = $('#popup-anchor');
+if(popup_anchor.length < 1)
+    popup_anchor = $('<div>').attr('id','popup-anchor').appendTo('body');
+else
+    popup_anchor.empty();
+
+$('<div>').addClass('modal-wrapper')
+        .html('<%= j render partial: "print_selection" %>')
+        .appendTo(popup_anchor);
+
+// open modal
+popup_anchor.find('.modal').modal();
