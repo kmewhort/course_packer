@@ -28,7 +28,7 @@ gem 'libreconv', github: 'kmewhort/libreconv'
 gem 'pdfkit' # NOTE: need wkhtml, at least 0.11 for link support (ubuntu repos only have 0.9)
 
 # licenses
-gem 'creative_commons_rails', github: 'kmewhort/libreconv'
+gem 'creative_commons_rails', github: 'kmewhort/creative_commons_rails'
 
 # forms & styling
 gem 'simple_form'
