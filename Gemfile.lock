@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/kmewhort/creative_commons_rails.git
-  revision: 065a134fcafde8678219f81ea00eb3613a08be0a
+  revision: dc143018c5c505373f872c75070dc71fe2f19ca3
   specs:
-    creative_commons_rails (0.9)
+    creative_commons_rails (0.9.1)
       i18n
       rails
 
