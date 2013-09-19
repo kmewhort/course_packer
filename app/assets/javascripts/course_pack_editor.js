@@ -84,6 +84,7 @@ CoursePackEditor.prototype.newArticle = function(){
         .val(id)
         .insertAfter(newArticle);
     newArticle.data('content-id',id);
+    newArticle.find('.license-chooser').attr('id', id);
 
     this.ajaxifyFileUpload(newArticle.find('.file-upload'));
     newArticle.find('textarea').autosize();

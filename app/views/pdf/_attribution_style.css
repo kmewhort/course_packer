@@ -7,6 +7,8 @@
 .license-label {
     display: inline-block;
     vertical-align: top;
+    font-size: 8pt;
+    padding-top: 2px;
 }
 
 .image-link {
