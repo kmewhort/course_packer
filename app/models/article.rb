@@ -13,6 +13,7 @@ class Article < Content
   embeds_one :license
   accepts_nested_attributes_for :license, allow_destroy: true
 
+  before_save { self.build_license if license.nil? }
   after_save { self.reload; count_pages }
 
   def has_file?
