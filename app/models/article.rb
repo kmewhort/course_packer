@@ -49,8 +49,17 @@ class Article < Content
     if !license.nil?
       footer = license.pdf_attribution_footer
       unless footer.nil?
-        attributed = Tempfile.new(["#{id}-attributed",".pdf"])
-        PdfUtils::overlay(trimmed.path, footer.path, attributed.path)
+        # apply the attribution to the first page of the article
+        first_page = Tempfile.new(["#{id}-firstpage",".pdf"])
+        PdfUtils::overlay(trimmed.path, footer.path, first_page.path)
+
+        # TODO: abstract the following operation into pdf_utils
+        if self.num_pages > 1
+          attributed = Tempfile.new(["#{id}-attributed",".pdf"])
+          `pdftk A=#{first_page.path} B=#{trimmed.path} cat A B2-end output #{attributed.path}`
+        else
+          attributed = first_page
+        end
       end
     end
 

@@ -32,7 +32,8 @@ class License
     end
   end
 
-  def pdf_attribution_footer(outfile = nil)
+  # pdf attribution footer, as a temp file
+  def pdf_attribution_footer
     # only implemented for CC
     if cc_license_info.nil?
       return nil
@@ -45,14 +46,16 @@ class License
     html_file.write html
     html_file.close(false)
 
-    # save to a temp file if no outfile is specified
-    if outfile.nil?
-      outfile = Tempfile.new(["#{id}-attribution",".pdf"])
-    end
-
+    # convert to pdf
+    pdf_file = Tempfile.new(["#{id}-attribution",".html"])
     pdf_kit = PDFKit.new(File.new(html_file.path), :page_size => 'Letter',
                          :margin_bottom => '0in', :no_background => true)
-    pdf_kit.to_file(outfile.path)
+    pdf_kit.to_file(pdf_file.path)
+
+    # trim off the trailing blank page
+    outfile = Tempfile.new(["#{id}-attribution",".pdf"])
+    PdfUtils::extract_pages(pdf_file.path, outfile.path, '1')
+
     outfile
   end
 

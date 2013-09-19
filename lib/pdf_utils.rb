@@ -61,6 +61,7 @@ module PdfUtils
   end
 
   # overlay one document onto another, using pdftk
+  # ONE PAGE DOCUMENTS ONLY
   def self.overlay(input_file, overlay_file, output_file)
     #`pdftk #{input_file} stamp #{overlay_file} output #{output_file}`
     # -- use background instead of stamp to preserve links
