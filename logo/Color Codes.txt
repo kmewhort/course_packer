@@ -1,0 +1,9 @@
+green:
+#8bc53f
+#006838
+
+blue:
+#00adee
+
+gray:
+#6d6e70

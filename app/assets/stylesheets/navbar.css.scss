@@ -1,9 +1,11 @@
 .navbar {
-  background-color: #F99B23;
+  background-color: #333;
   border-radius: 0;
   margin-bottom: 0;
 
   .navbar-brand {
     color: #F2F5F2;
+    max-width: 400px;
+    padding: 11px 15px;
   }
 }
