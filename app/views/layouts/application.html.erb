@@ -7,8 +7,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body class='<%= controller.controller_name %> <%= controller.action_name %>'>
-    <%= render partial: 'layouts/navbar' %>
     <div id="main">
+      <%= render partial: 'layouts/navbar' %>
       <div class="container">
         <div class="content">
           <div class="row">
@@ -17,11 +17,9 @@
               <%= yield %>
             </div>
           </div>
-          <footer>
-            <%= render 'layouts/footer' %>
-          </footer>
         </div>
       </div>
     </div>
+   <%= render partial: 'layouts/footer' %>
 </body>
 </html>
