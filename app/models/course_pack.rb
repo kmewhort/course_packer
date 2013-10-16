@@ -136,6 +136,10 @@ class CoursePack
     contents.where(_type: 'Article')
   end
 
+  def articles_with_files
+    articles.select{|a| !a.file.path.nil? }
+  end
+
   def build_article
     new_article = contents.build({},Article)
     new_article.build_license
