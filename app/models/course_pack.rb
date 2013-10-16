@@ -11,6 +11,9 @@ class CoursePack
   field :date, type: String, # string so the field can be used for terms, semesters, etc.
          default: Time.now.strftime("%B %Y")
 
+  field :sharing, type: String, default: 'private'
+  SHARING_TYPES = %w(private link public)
+
   mount_uploader :title_page, DocUploader
   mount_uploader :toc, DocUploader
   mount_uploader :preview, UnprocessedFile
@@ -19,7 +22,7 @@ class CoursePack
   has_many :contents, order: 'weight ASC'
   accepts_nested_attributes_for :contents, allow_destroy: true
 
-  attr_accessible :contents_attributes, :title, :author, :date
+  attr_accessible :contents_attributes, :title, :author, :date, :sharing
 
   def generate_preview
     return false unless articles.any?{|a| !a.file.pdf.path.nil? }
@@ -138,6 +141,10 @@ class CoursePack
 
   def articles_with_files
     articles.select{|a| !a.file.path.nil? }
+  end
+
+  def openly_licensed?
+    articles_with_files.all? {|a| a.license.type =~ /\Acc_/ }
   end
 
   def build_article

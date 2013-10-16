@@ -6,8 +6,14 @@ else
     popup_anchor.empty();
 
 $('<div>').addClass('modal-wrapper')
-        .html('<%= j render partial: "print_selection" %>')
+        .html('<%= j render partial: "share_selection" %>')
         .appendTo(popup_anchor);
 
 // open modal
 popup_anchor.find('.modal').modal();
+
+// load bootstrap tooltips
+$('.tooltip-anchor').tooltip();
+
+// activate buttons
+new SharingSettings($('#share-modal'));

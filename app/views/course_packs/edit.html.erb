@@ -29,8 +29,13 @@
         </div>
         <i class="glyphicon glyphicon-hdd"></i>
         <%= f.submit 'Save & Update Preview', class: 'btn btn-primary save' %>
+
         <%= link_to print_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary print' do %>
           <i class="glyphicon glyphicon-print"></i> Print
+        <% end %>
+
+        <%= link_to share_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary share' do %>
+          <i class="glyphicon glyphicon-share"></i> Share
         <% end %>
     <% end %>
     </div>

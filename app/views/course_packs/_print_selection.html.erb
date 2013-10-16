@@ -17,19 +17,23 @@
             </span>
             <% end %>
 
-            <%= link_to print_course_pack_path(@course_pack, type: 'tab_ready') do %>
-            <span class="selection">
+            <%= #link_to print_course_pack_path(@course_pack, type: 'tab_ready')
+                link_to '#' do %>
+            <span class="selection disabled">
               <i class= "glyphicon glyphicon-folder-close"></i>
               <span class="type">Tab-ready</span>
               <div class="description">Ensures each chapter starts on a new page</div>
+              <em>Coming soon!</em>
             </span>
             <% end %>
 
-            <%= link_to print_course_pack_path(@course_pack, type: 'notebook') do %>
-            <span class="selection">
+            <%= #link_to print_course_pack_path(@course_pack, type: 'notebook') do
+                link_to '#' do %>
+            <span class="selection disabled">
               <i class="glyphicon glyphicon-book"></i>
               <span class="type">Notebook</span>
               <div class="description">Every right-hand-side page is blank (useful for note taking)</div>
+              <em>Coming soon!</em>
             </span>
             <% end %>
         <% end %>

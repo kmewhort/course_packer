@@ -3,6 +3,9 @@
  */
 
 $(document).ready(function(){
+    /*
+        Edit
+     */
     $('#course-pack_editor').each(function(){
         var course_pack_id = $(this).data('course-pack-id');
 
@@ -59,6 +62,23 @@ $(document).ready(function(){
                 }
             });
             return false;
+        });
+    });
+
+    /*
+     * View
+     */
+    $('#show-course-pack').each(function(){
+        var course_pack_id = $(this).data('course-pack-id');
+
+        // load course pack pdf preview
+        var preview = new Preview($('#preview')[0]);
+        $.ajax({
+            url: '/course_packs/' + course_pack_id + '/prepare_preview',
+            method: 'PUT',
+            success: function(data){
+                preview.load('/course_packs/' + course_pack_id + '/preview.pdf');
+            }
         });
     });
 });

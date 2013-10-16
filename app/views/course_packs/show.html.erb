@@ -1,0 +1,15 @@
+<div id="show-course-pack" class="container" data-course-pack-id="<%= @course_pack.id %>">
+  <div class="row">
+    <div class="col-lg-11">
+
+      <div id="preview">
+        <p>Loading course pack...</p>
+      </div>
+    </div>
+    <div class="col-lg-1">
+      <%= link_to print_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary print' do %>
+          <i class="glyphicon glyphicon-print"></i> Print
+      <% end %>
+    </div>
+  </div>
+</div>

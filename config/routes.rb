@@ -6,6 +6,7 @@ CoursePacker::Application.routes.draw do
       get :preview
       get :print_selection
       get :print
+      get :share_selection
     end
   end
 

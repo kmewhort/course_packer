@@ -1,0 +1,51 @@
+<div id="share-modal" class="modal fade" data-coursepack-id="<%= @course_pack.id %>">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Share</h4>
+      </div>
+      <div class="modal-body">
+        <%= link_to '#', class: "private #{@course_pack.sharing == "private" ? "selected" : ""}", 'data-share-type' => 'private' do %>
+            <span class="selection">
+              <i class="glyphicon glyphicon-lock"></i>
+              <span class="type">Private</span>
+              <div class="description">Only you can access this course pack</div>
+            </span>
+        <% end %>
+
+        <%= link_to '#', class: "link #{@course_pack.sharing == "link" ? "selected" : ""}", 'data-share-type' => 'link' do %>
+            <span class="selection">
+              <i class= "glyphicon glyphicon-link"></i>
+              <span class="type">Limited</span>
+              <div class="description">Anyone with whom you share the link can access it (read-only)</div>
+            </span>
+        <% end %>
+
+        <% if @course_pack.openly_licensed? %>
+          <a href="#" class="public <%= @course_pack.sharing == "public" ? "selected" : "" %>" data-share-type="public">
+            <span class="selection">
+        <% else %>
+          <a href="#" class="public tooltip-anchor <%= @course_pack.sharing == "public" ? "selected" : "" %>" data-share-type="public"
+             data-toggle="tooltip" data-original-title="Only available if all course pack articles come under Creative Commons licenses.">
+            <span class="selection disabled">
+        <% end %>
+              <i class="glyphicon glyphicon-globe"></i>
+              <span class="type">Public</span>
+              <div class="description">Everyone can view your course pack (read-only).</div>
+              </span>
+            </span>
+          </a>
+
+        <div class="share-link<%= @course_pack.sharing != 'link' ? ' hidden' : '' %>">
+          <strong>Read-only access link: </strong>
+          <%= link_to course_pack_url(@course_pack), course_pack_url(@course_pack) %>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
