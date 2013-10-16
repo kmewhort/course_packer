@@ -11,5 +11,6 @@ CoursePacker::Application.routes.draw do
 
   match 'licenses/edit' => 'licenses#edit'
 
-  root to: 'course_packs#create'
+  # static pages
+  root to: 'static_pages#home'
 end

@@ -1,11 +1,11 @@
 class CoursePacksController < ApplicationController
   before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview,
                                           :print_selection, :print]
-  before_filter :build_course_pack, only: [:create]
+  before_filter :build_course_pack, only: [:new]
   before_filter :build_articles, only: [:update]
   helper LicenseHelper
 
-  def create
+  def new
     @course_pack.save #save immediately to allow in-place editing
 
     respond_to do |format|
