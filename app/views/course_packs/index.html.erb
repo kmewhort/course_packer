@@ -1,0 +1,30 @@
+<div id="course-pack-index">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Your Course Packs</h2>
+      <% if @course_packs.empty? %>
+          <p>You do not presently have any course packs available for editing.</p>
+      <% else %>
+        <table class="table table-striped">
+          <tr>
+            <th class="cp-title">Title</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <% @course_packs.each do |course_pack| %>
+          <tr>
+            <td><%= !course_pack.title.nil? ? course_pack.title : 'Untitled'  %></td>
+            <td><%= link_to 'Print', print_selection_course_pack_path(course_pack), remote: true, class: 'btn btn-success btn-xs'%></td>
+            <td><%= link_to 'Share', share_selection_course_pack_path(course_pack), remote: true, class: 'btn btn-success btn-xs' %></td>
+            <td><%= link_to 'Edit', edit_course_pack_path(course_pack), class: 'btn btn-primary btn-xs' %></td>
+            <td><%= link_to 'Delete', course_pack_path(course_pack), method: :delete, confirm: 'Delete course pack?', class: 'btn btn-primary btn-xs' %></td>
+          </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <%= link_to 'Create New Course Pack', new_course_pack_path, class: 'btn btn-primary' %>
+    </div>
+  </div>
+</div>

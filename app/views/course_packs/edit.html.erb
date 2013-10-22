@@ -45,6 +45,8 @@
             for a free account (or <%= link_to('sign in', new_user_session_path) %> if you already have an account).
           </div>
         </div>
+    <% else %>
+      <%= link_to "<< Back to course pack index", course_packs_path %>
     <% end %>
     </div>
 

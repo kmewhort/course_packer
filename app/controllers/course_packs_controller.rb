@@ -1,6 +1,7 @@
 class CoursePacksController < ApplicationController
-  before_filter :find_course_pack, only: [:edit, :update, :prepare_preview, :preview,
+  before_filter :find_course_pack, only: [:edit, :update, :destroy, :prepare_preview, :preview,
                                           :print_selection, :share_selection, :print, :show]
+  before_filter :find_all_course_packs, only: [:index]
   before_filter :build_course_pack, only: [:new]
   before_filter :build_articles, only: [:update]
   authorize_resource
@@ -9,7 +10,7 @@ class CoursePacksController < ApplicationController
   def new
     @course_pack.save #save immediately to allow in-place editing
 
-        respond_to do |format|
+    respond_to do |format|
       format.html { redirect_to edit_course_pack_path(@course_pack) }
     end
   end
@@ -34,6 +35,14 @@ class CoursePacksController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @course_pack.error_messages, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def destroy
+    @course_pack.destroy
+
+    respond_to do |format|
+      format.html { redirect_to course_packs_path }
     end
   end
 
@@ -84,9 +93,20 @@ class CoursePacksController < ApplicationController
     end
   end
 
+  def index
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
   def find_course_pack
     @course_pack = CoursePack.find(params[:id])
+  end
+
+  def find_all_course_packs
+    # TODO: users should also be able to view all public course packs
+    @course_packs = CoursePack.where(owner_id: current_user.id)
   end
 
   def build_course_pack
