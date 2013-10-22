@@ -10,6 +10,8 @@ CoursePacker::Application.routes.draw do
     end
   end
 
+  devise_for :users, controllers: {sessions: "sessions"}
+
   match 'licenses/edit' => 'licenses#edit'
 
   # static pages

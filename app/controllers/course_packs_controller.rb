@@ -3,17 +3,19 @@ class CoursePacksController < ApplicationController
                                           :print_selection, :share_selection, :print, :show]
   before_filter :build_course_pack, only: [:new]
   before_filter :build_articles, only: [:update]
+  authorize_resource
   helper LicenseHelper
 
   def new
     @course_pack.save #save immediately to allow in-place editing
 
-    respond_to do |format|
+        respond_to do |format|
       format.html { redirect_to edit_course_pack_path(@course_pack) }
     end
   end
 
   def edit
+
     respond_to do |format|
       format.html
     end
@@ -89,6 +91,12 @@ class CoursePacksController < ApplicationController
 
   def build_course_pack
     @course_pack = CoursePack.new
+
+    if user_signed_in?
+      @course_pack.owner = current_user
+    else
+      @course_pack.owner_session_token = session[:temp_user_id]
+    end
 
     #seed with an empty article
     @course_pack.contents.build({}, Article)

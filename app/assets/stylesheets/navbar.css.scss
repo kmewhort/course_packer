@@ -3,6 +3,10 @@
   border-radius: 0;
   margin-bottom: 0;
 
+  .navbar-header {
+    display: inline-block;
+    width: 100%;
+  }
   .navbar-brand {
     color: #F2F5F2;
     max-width: 400px;
@@ -17,5 +21,15 @@
     img {
       padding-left: 2px;
     }
+  }
+}
+
+.signin-links {
+  padding-right: 15px;
+  padding-top: 4px;
+  a {
+    color: #357EBD;
+    font-size: 105%;
+    font-weight: bold;
   }
 }

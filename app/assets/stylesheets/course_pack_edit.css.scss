@@ -232,7 +232,7 @@
   }
 
   .btn.save {
-    margin-bottom: 18px;
+    margin-bottom: 7px;
     padding-left: 32px;
   }
   .btn.save, .glyphicon-hdd{
@@ -252,6 +252,17 @@
   }
   .btn.share {
     float: right;
+  }
+
+  .registration-link {
+    .alert {
+        font-size: 10.5pt;
+        padding: 4px 6px;
+    }
+    a {
+      font-weight: bold;
+      text-decoration: underline;
+    }
   }
 
   #preview {

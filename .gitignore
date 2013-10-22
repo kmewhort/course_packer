@@ -23,3 +23,6 @@
 /public/article
 /public/course_pack
 /public/license
+
+# ignore secrets file
+/config/secrets

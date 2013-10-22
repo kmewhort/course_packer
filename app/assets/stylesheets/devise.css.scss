@@ -1,0 +1,19 @@
+.registrations, .sessions {
+  .container {
+    margin-bottom: 12px;
+  }
+
+  input {
+    margin-bottom: 6px;
+  }
+
+  .signin-link, .forgot-link, .signup-link {
+    display: inline-block;
+  }
+  .signin-link {
+    float: left;
+  }
+  .forgot-link {
+    float: right;
+  }
+}

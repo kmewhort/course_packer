@@ -38,7 +38,16 @@
           <i class="glyphicon glyphicon-share"></i> Share
         <% end %>
     <% end %>
+    <% if !user_signed_in? %>
+        <div class="registration-link">
+          <div class="alert alert-info registration-link">
+            <strong>Free signup!</strong> To permanently save or share this course pack, you must <%= link_to('sign up', new_user_registration_path) %>
+            for a free account (or <%= link_to('sign in', new_user_session_path) %> if you already have an account).
+          </div>
+        </div>
+    <% end %>
     </div>
+
     <div id="preview" class="col-lg-7">
       <p>Please add one or more documents to the course pack.</p>
     </div>

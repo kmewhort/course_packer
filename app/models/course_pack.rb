@@ -5,6 +5,10 @@ require 'libreconv'
 class CoursePack
   include Mongoid::Document
   include Mongoid::Timestamps
+  resourcify # user roles w/ rolify
+
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  field :owner_session_token, type: String # temporary owner-by-cookie until user signs up/signs in
 
   field :title, type: String
   field :author, type: String

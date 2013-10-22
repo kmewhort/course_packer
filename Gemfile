@@ -35,6 +35,11 @@ gem 'simple_form'
 gem 'best_in_place', github: 'bernat/best_in_place'
 gem 'jquery-ui-rails'
 
+# user management
+gem 'devise'
+gem 'rolify'
+gem 'cancan'
+
 # deployment
 gem 'capistrano'
 
