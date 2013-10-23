@@ -4,10 +4,10 @@
       <h2><%= best_in_place @course_pack, :title, type: :input, activator: "#title-bip-activator", :nil => 'Untitled' %></h2>
       <span id="title-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
       <span class="authorship-details">
-         <p>Course Pack Author: <%= best_in_place @course_pack, :author, type: :input, activator: "#author-bip-activator", :nil => ' ' %></h2>
-         <span id="author-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
-         <p>Date: <%= best_in_place @course_pack, :date, type: :input, activator: "#date-bip-activator", :nil => ' ' %></h2>
-         <span id="date-bip-activator" class="glyphicon glyphicon-pencil activator"></span>
+         <p>Course Pack Author: <%= best_in_place @course_pack, :author, type: :input, activator: "#author-bip-activator", :nil => ' ' %>
+         <span id="author-bip-activator" class="glyphicon glyphicon-pencil activator"></span></p>
+         <p>Date: <%= best_in_place @course_pack, :date, type: :input, activator: "#date-bip-activator", :nil => ' ' %>
+         <span id="date-bip-activator" class="glyphicon glyphicon-pencil activator"></span></p>
       </span>
     </div>
   </div>
@@ -34,7 +34,8 @@
           <i class="glyphicon glyphicon-print"></i> Print
         <% end %>
 
-        <%= link_to share_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary share' do %>
+        <%= link_to share_selection_course_pack_path(@course_pack), remote: true, class: 'btn btn-primary share',
+            disabled: !user_signed_in? do %>
           <i class="glyphicon glyphicon-share"></i> Share
         <% end %>
     <% end %>

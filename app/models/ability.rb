@@ -17,7 +17,11 @@ class Ability
       can :manage, CoursePack, owner_session_token: session_token
     end
 
-    # all users (including anonymous) can view any course pack for which they have the URL, and create a new course pack,
-    can [:show, :new], CoursePack
+    # all users, including anonymous users, can view any course pack for which has a privacy setting of 'limited' or 'public'
+    # (if they have the URL)
+    can [:show, :prepare_preview, :preview, :print_selection, :print], CoursePack, sharing: ['public','link']
+
+    # all users can create a new course pack
+    can :new, CoursePack
   end
 end
