@@ -9,7 +9,7 @@
     <% unless article.reference.nil? || article.reference.empty? %>
         <div class="reference info"><%= article.reference %></div>
     <% end %>
-    <% unless article.license.nil? || article.license.full_title.nil? %>
+    <% unless article.license.nil? || article.license.full_title.nil? || article.license.full_title.empty? %>
         <div class="license info">Licensed under a
           <% if article.license.url %>
             <%= link_to article.license.full_title, article.license.url %>
