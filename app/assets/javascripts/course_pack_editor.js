@@ -202,9 +202,9 @@ CoursePackEditor.prototype.ajaxifyFileUpload = function(element){
     });
 }
 
-CoursePackEditor.prototype.addPageRangeSlider = function(element, num_pages){
+CoursePackEditor.prototype.addPageRangeSlider = function(element, numPages){
     var container = $(element);
-    if(!num_pages)
+    if(!numPages)
       numPages = container.data('num-pages');
 
     if(numPages){
