@@ -1,4 +1,4 @@
-.registrations, .sessions {
+.registrations, .sessions, .passwords {
   .container {
     margin-bottom: 12px;
   }
@@ -9,6 +9,7 @@
 
   .signin-link, .forgot-link, .signup-link {
     display: inline-block;
+    padding-right: 10px;
   }
   .signin-link {
     float: left;
