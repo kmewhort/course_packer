@@ -10,7 +10,7 @@ CoursePacker::Application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: {sessions: "sessions"}
+  devise_for :users
 
   match 'licenses/edit' => 'licenses#edit'
 
