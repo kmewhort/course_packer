@@ -9,5 +9,5 @@ class Content
   field :weight, type: Integer, default: 0 #controls order of appearance in the CoursePack
   attr_accessible :title, :num_pages, :weight, :_type, :_id
 
-  before_destroy {|content| content.course_pack.touch }
+  before_destroy {|content| content.course_pack.touch unless content.course_pack.nil? }
 end
