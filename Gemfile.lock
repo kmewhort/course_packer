@@ -7,14 +7,6 @@ GIT
       rails (>= 3.1)
 
 GIT
-  remote: git://github.com/kmewhort/creative_commons_rails.git
-  revision: dc143018c5c505373f872c75070dc71fe2f19ca3
-  specs:
-    creative_commons_rails (0.9.1)
-      i18n
-      rails
-
-GIT
   remote: git://github.com/kmewhort/libreconv.git
   revision: b20de68e5e3c7e6ba5c65d92af643b7771ae3fb0
   specs:
@@ -83,6 +75,9 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.6)
+    creative_commons_rails (0.9.3)
+      i18n
+      rails
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -202,7 +197,7 @@ DEPENDENCIES
   carrierwave
   carrierwave-mongoid
   coffee-rails (~> 3.2.1)
-  creative_commons_rails!
+  creative_commons_rails (= 0.9.3)
   devise
   i18n
   jquery-rails
